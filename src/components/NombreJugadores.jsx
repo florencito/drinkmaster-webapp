@@ -31,43 +31,43 @@ const NombreJugadores = ({ onContinue }) => {
   }
 
   return (
-    <div className="p-4 text-center">
-      <h2 className="text-2xl font-bold mb-4">Nombres de jugadores</h2>
-      <div className="space-y-2">
+    <div className="p-4 text-center max-w-md mx-auto">
+      <h2 className="text-2xl font-bold mb-6">Nombres de jugadores</h2>
+      <div className="space-y-3">
         {nombres.map((nombre, i) => (
           <div key={i} className="flex items-center space-x-2">
             <input
-              className="border p-2 rounded w-full"
+              className="border border-zinc-300 rounded px-3 py-2 w-full text-zinc-900"
               placeholder={`Jugador ${i + 1}`}
               value={nombre}
               onChange={(e) => handleChange(i, e.target.value)}
             />
             {nombres.length > MIN_JUGADORES && (
               <button
-                className="text-red-500 font-bold px-2"
+                className="text-red-500 font-bold px-2 hover:text-red-600 transition"
                 onClick={() => removerJugador(i)}
               >
-                X
+                ✕
               </button>
             )}
           </div>
         ))}
       </div>
-      <div className="flex justify-center space-x-4 mt-4">
+      <div className="flex justify-center space-x-4 mt-6">
         <button
-          className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 disabled:bg-blue-400"
+          className="bg-blue-600 hover:bg-blue-700 active:scale-95 disabled:bg-blue-400 text-white px-4 py-2 rounded transition"
           onClick={agregarJugador}
           disabled={nombres.length >= MAX_JUGADORES}
         >
-          Agregar jugador
+          Añadir jugador
         </button>
       </div>
       <button
-        className="mt-6 bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 disabled:bg-green-400"
+        className="mt-8 bg-green-600 hover:bg-green-700 active:scale-95 disabled:bg-green-400 text-white px-6 py-3 rounded-full transition w-full"
         onClick={continuar}
         disabled={!tieneMinimo}
       >
-        Comenzar partida
+        ¡Comenzar partida!
       </button>
     </div>
   )

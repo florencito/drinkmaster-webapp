@@ -1,16 +1,15 @@
 const Fin = ({ onReiniciar }) => {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen text-center">
-        <h1 className="text-3xl font-bold mb-4">¡Fin del juego! 🥳</h1>
-        <button
-          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
-          onClick={onReiniciar}
-        >
-          Volver al inicio
-        </button>
-      </div>
-    )
-  }
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen text-center px-4">
+      <h1 className="text-3xl font-bold mb-6">¡Fin del juego! 🥳</h1>
+      <button
+        className="bg-blue-500 hover:bg-blue-600 active:scale-95 text-white px-8 py-3 rounded-full shadow-md transition duration-300"
+        onClick={onReiniciar}
+      >
+        Volver al inicio
+      </button>
+    </div>
+  )
+}
   
   export default Fin
-  

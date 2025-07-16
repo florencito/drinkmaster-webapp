@@ -11,7 +11,7 @@ function App() {
   const irA = (nuevaFase) => setFase(nuevaFase)
 
   return (
-    <div className="min-h-screen bg-zinc-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-fuchsia-900 via-purple-900 to-indigo-900 text-white">
       {fase === 'inicio' && <Inicio onStart={() => irA('nombres')} />}
       {fase === 'nombres' && (
         <NombreJugadores
