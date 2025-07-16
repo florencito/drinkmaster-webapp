@@ -7,7 +7,7 @@ const cartasEjemplo = [
   "Haz un brindis ridículo. Si no lo haces, tomas 2."
 ]
 
-const Juego = ({ jugadores, onFin }) => {
+const Juego = ({ onFin }) => {
   const [cartaActual, setCartaActual] = useState(0)
 
   const siguienteCarta = () => {
