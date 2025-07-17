@@ -1,8 +1,5 @@
 ---
 
-```markdown
-# 🥂 DrinkMaster
-
 **DrinkMaster** es una aplicación web de retos para juegos de beber con cartas dinámicas, construida con React y Supabase. Está pensada para ser divertida, personalizable y fácil de escalar con un mini CMS para gestionar las cartas.
 
 ---
