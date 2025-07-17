@@ -1,5 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
+/* eslint-env node */
+/* global process */
+import { createClient } from '@supabase/supabase-js'
+import dotenv from 'dotenv'
 
 dotenv.config();
 
