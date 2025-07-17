@@ -120,16 +120,16 @@ src/
 
 ---
 
-## ✨ Autores
+## ✨ Autor
 
-- Florencio Reyes – Infraestructura, CI/CD, Supabase
-- Alejandro Alba – Frontend, lógica del juego, CMS
+Este proyecto fue inicialmente planteado para desarrollarse en equipo, pero debido a circunstancias externas, fue completado de forma individual por:
+
+- **Florencio Reyes** – Infraestructura, CI/CD, Supabase, desarrollo frontend, lógica del juego y panel de administración.
 
 ---
 
 ## 📌 Licencia
 
 Proyecto académico con fines demostrativos. ¡Disfrútalo con responsabilidad!
-```
 
 ---
