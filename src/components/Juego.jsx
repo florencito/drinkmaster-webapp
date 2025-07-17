@@ -18,8 +18,6 @@ const barajar = (arr) => {
   return copia
 }
 
-const players = ['floren', 'pau', 'sergio']
-
 const Juego = ({ jugadores, onFin }) => {
   const { cards, loading } = useActiveCards()
   const [mazo, setMazo] = useState([])
@@ -37,10 +35,10 @@ const Juego = ({ jugadores, onFin }) => {
     if (mazo.length > 0 && indice < mazo.length) {
       const carta = mazo[indice]
       setTextoCarta(
-        replacePlaceholders(carta.content, carta.placeholders || [], players)
+        replacePlaceholders(carta.content, carta.placeholders || [], jugadores)
       )
     }
-  }, [mazo, indice])
+  }, [mazo, indice, jugadores])
 
   const siguienteCarta = () => {
     if (indice < mazo.length - 1) {

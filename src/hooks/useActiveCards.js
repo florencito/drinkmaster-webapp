@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import supabase from '../supabaseClient'
+// Use the preconfigured client with credentials
+import { supabase } from '../lib/supabaseClient'
 
 const useActiveCards = () => {
   const [cards, setCards] = useState([])
