@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import cartasBase from '../data/cartas'
+import useActiveCards from '../hooks/useActiveCards'
+import replacePlaceholders from '../utils/replacePlaceholders'
 
 const fondos = [
   'bg-gradient-to-br from-pink-500 to-fuchsia-600',
@@ -17,50 +18,29 @@ const barajar = (arr) => {
   return copia
 }
 
-const personalizarCarta = (carta, jugadores) => {
-  let texto = carta
-
-  let indiceJugador = null
-  if (texto.includes('{{player}}')) {
-    indiceJugador = Math.floor(Math.random() * jugadores.length)
-    const nombre = jugadores[indiceJugador]
-    texto = texto.replace(/{{player}}/g, nombre)
-  }
-
-  if (texto.includes('{{other}}')) {
-    const opciones = jugadores
-      .map((_, i) => i)
-      .filter((i) => i !== indiceJugador)
-    const idx = opciones.length
-      ? opciones[Math.floor(Math.random() * opciones.length)]
-      : indiceJugador ?? 0
-    const nombreOtro = jugadores[idx]
-    texto = texto.replace(/{{other}}/g, nombreOtro)
-  }
-
-  texto = texto.replace(/{{all}}/g, 'todos')
-  return texto
-}
+const players = ['floren', 'pau', 'sergio']
 
 const Juego = ({ jugadores, onFin }) => {
+  const { cards, loading } = useActiveCards()
   const [mazo, setMazo] = useState([])
   const [indice, setIndice] = useState(0)
   const [textoCarta, setTextoCarta] = useState('')
 
   useEffect(() => {
-    const disponibles =
-      jugadores.length > 1
-        ? cartasBase
-        : cartasBase.filter((c) => !c.includes('{{other}}'))
-    setMazo(barajar(disponibles))
-    setIndice(0)
-  }, [jugadores])
+    if (!loading) {
+      setMazo(barajar(cards))
+      setIndice(0)
+    }
+  }, [cards, loading])
 
   useEffect(() => {
     if (mazo.length > 0 && indice < mazo.length) {
-      setTextoCarta(personalizarCarta(mazo[indice], jugadores))
+      const carta = mazo[indice]
+      setTextoCarta(
+        replacePlaceholders(carta.content, carta.placeholders || [], players)
+      )
     }
-  }, [mazo, indice, jugadores])
+  }, [mazo, indice])
 
   const siguienteCarta = () => {
     if (indice < mazo.length - 1) {
