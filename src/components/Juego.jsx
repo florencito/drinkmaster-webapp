@@ -19,7 +19,7 @@ const barajar = (arr) => {
 }
 
 const Juego = ({ jugadores, onFin }) => {
-  const { cards, loading } = useActiveCards()
+  const { cards, loading, error } = useActiveCards()
   const [mazo, setMazo] = useState([])
   const [indice, setIndice] = useState(0)
   const [textoCarta, setTextoCarta] = useState('')
@@ -48,6 +48,41 @@ const Juego = ({ jugadores, onFin }) => {
     }
   }
 
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="p-4 flex flex-col justify-center items-center text-center min-h-screen">
+        <div className="bg-gray-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
+          <h2 className="text-lg font-medium">Cargando cartas...</h2>
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="p-4 flex flex-col justify-center items-center text-center min-h-screen">
+        <div className="bg-red-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
+          <h2 className="text-lg font-medium">Error al cargar las cartas</h2>
+          <p className="text-sm mt-2">{error.message}</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show empty state
+  if (mazo.length === 0) {
+    return (
+      <div className="p-4 flex flex-col justify-center items-center text-center min-h-screen">
+        <div className="bg-yellow-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
+          <h2 className="text-lg font-medium">No hay cartas disponibles</h2>
+          <p className="text-sm mt-2">Necesitas agregar cartas a la base de datos</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="p-4 flex flex-col justify-center items-center text-center min-h-screen">
       <div
@@ -63,6 +98,9 @@ const Juego = ({ jugadores, onFin }) => {
       >
         Siguiente
       </button>
+      <div className="mt-4 text-sm text-gray-500">
+        Carta {indice + 1} de {mazo.length}
+      </div>
     </div>
   )
 }
