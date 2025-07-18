@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import supabase from '../supabaseClient'
 
-const useActiveCards = () => {
+const useActiveCards = (mode = 'normal') => {
   const [cards, setCards] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -14,6 +14,7 @@ const useActiveCards = () => {
         .from('cards')
         .select('content, placeholders')
         .eq('is_active', true)
+        .eq('mode', mode)
 
       if (!error) {
         console.log('Cards fetched successfully:', data)
@@ -27,7 +28,7 @@ const useActiveCards = () => {
     }
 
     fetchCards()
-  }, [])
+  }, [mode])
 
   return { cards, loading, error }
 }

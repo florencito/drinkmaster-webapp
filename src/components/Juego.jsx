@@ -18,8 +18,8 @@ const barajar = (arr) => {
   return copia
 }
 
-const Juego = ({ jugadores, onFin }) => {
-  const { cards, loading, error } = useActiveCards()
+const Juego = ({ jugadores, onFin, mode = 'normal' }) => {
+  const { cards, loading, error } = useActiveCards(mode)
   const [mazo, setMazo] = useState([])
   const [indice, setIndice] = useState(0)
   const [textoCarta, setTextoCarta] = useState('')
