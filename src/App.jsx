@@ -4,8 +4,8 @@ import NombreJugadores from './components/NombreJugadores'
 import Juego from './components/Juego'
 import Fin from './components/Fin'
 
-function App({ mode = 'normal' }) {
-  const [fase, setFase] = useState('inicio')
+function App({ mode = 'normal', initialPhase = 'inicio' }) {
+  const [fase, setFase] = useState(initialPhase)
   const [jugadores, setJugadores] = useState([])
 
   const irA = (nuevaFase) => setFase(nuevaFase)

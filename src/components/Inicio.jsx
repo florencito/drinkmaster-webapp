@@ -10,12 +10,14 @@ const Inicio = ({ onStart, mode = 'normal' }) => {
         >
           {startLabel}
         </button>
-        <button
-          className="w-full bg-green-500 hover:bg-green-600 active:scale-95 text-white px-6 py-3 rounded-full shadow-lg transition duration-300"
-          onClick={() => (window.location.href = '/hardcore')}
-        >
-          Modo Hardcore
-        </button>
+        {mode === 'normal' && (
+          <button
+            className="w-full bg-green-500 hover:bg-green-600 active:scale-95 text-white px-6 py-3 rounded-full shadow-lg transition duration-300"
+            onClick={() => (window.location.href = '/hardcore')}
+          >
+            Modo Hardcore
+          </button>
+        )}
         <button
           className="w-full bg-green-500 hover:bg-green-600 active:scale-95 text-white px-6 py-3 rounded-full shadow-lg transition duration-300"
           onClick={() => (window.location.href = '/supervivencia')}

@@ -20,6 +20,7 @@ const barajar = (arr) => {
 
 const Juego = ({ jugadores, onFin, mode = 'normal' }) => {
   const { cards, loading, error } = useActiveCards(mode)
+  const modeLabel = mode === 'hardcore' ? 'Modo Hardcore' : 'Modo Clásico'
   const [mazo, setMazo] = useState([])
   const [indice, setIndice] = useState(0)
   const [textoCarta, setTextoCarta] = useState('')
@@ -84,7 +85,10 @@ const Juego = ({ jugadores, onFin, mode = 'normal' }) => {
   }
 
   return (
-    <div className="p-4 flex flex-col justify-center items-center text-center min-h-screen">
+    <div className="p-4 flex flex-col justify-center items-center text-center min-h-screen relative">
+      <div className="absolute top-2 left-2 text-xs bg-black/40 px-2 py-1 rounded">
+        {modeLabel}
+      </div>
       <div
         className={`w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6 transition-colors duration-300 ${
           fondos[indice % fondos.length]
