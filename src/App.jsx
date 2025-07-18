@@ -4,15 +4,15 @@ import NombreJugadores from './components/NombreJugadores'
 import Juego from './components/Juego'
 import Fin from './components/Fin'
 
-function App() {
-  const [fase, setFase] = useState('inicio')
+function App({ mode = 'normal', initialPhase = 'inicio' }) {
+  const [fase, setFase] = useState(initialPhase)
   const [jugadores, setJugadores] = useState([])
 
   const irA = (nuevaFase) => setFase(nuevaFase)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-fuchsia-900 via-purple-900 to-indigo-900 text-white">
-      {fase === 'inicio' && <Inicio onStart={() => irA('nombres')} />}
+      {fase === 'inicio' && <Inicio onStart={() => irA('nombres')} mode={mode} />}
       {fase === 'nombres' && (
         <NombreJugadores
           onContinue={(nombres) => {
@@ -25,6 +25,7 @@ function App() {
         <Juego
           jugadores={jugadores}
           onFin={() => irA('fin')}
+          mode={mode}
         />
       )}
       {fase === 'fin' && <Fin onReiniciar={() => irA('inicio')} />}
