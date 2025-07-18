@@ -8,6 +8,9 @@ function App({ mode = 'normal', initialPhase = 'inicio' }) {
   const [fase, setFase] = useState(initialPhase)
   const [jugadores, setJugadores] = useState([])
 
+  const agregarJugador = (nombre) =>
+    setJugadores((prev) => [...prev, nombre])
+
   const irA = (nuevaFase) => setFase(nuevaFase)
 
   return (
@@ -25,6 +28,7 @@ function App({ mode = 'normal', initialPhase = 'inicio' }) {
         <Juego
           jugadores={jugadores}
           onFin={() => irA('fin')}
+          onAddPlayer={agregarJugador}
           mode={mode}
         />
       )}
