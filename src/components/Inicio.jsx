@@ -1,7 +1,7 @@
 const Inicio = ({ onStart, mode = 'normal' }) => {
   const startLabel = mode === 'hardcore' ? 'Modo Hardcore' : 'Modo Clásico'
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center px-4">
+    <div className="flex flex-col items-center justify-center min-h-dvh text-center px-4">
       <h1 className="text-5xl font-extrabold tracking-wide mb-8 drop-shadow">DrinkMaster 🍻</h1>
       <div className="space-y-4 w-full max-w-xs">
         <button
