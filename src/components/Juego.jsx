@@ -68,7 +68,7 @@ const Juego = ({ jugadores, onFin, onAddPlayer, mode = 'normal' }) => {
   // Show loading state
   if (loading) {
     return (
-      <div className="p-4 flex flex-col justify-center items-center text-center min-h-screen">
+      <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh">
         <div className="bg-gray-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
           <h2 className="text-lg font-medium">Cargando cartas...</h2>
         </div>
@@ -79,7 +79,7 @@ const Juego = ({ jugadores, onFin, onAddPlayer, mode = 'normal' }) => {
   // Show error state
   if (error) {
     return (
-      <div className="p-4 flex flex-col justify-center items-center text-center min-h-screen">
+      <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh">
         <div className="bg-red-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
           <h2 className="text-lg font-medium">Error al cargar las cartas</h2>
           <p className="text-sm mt-2">{error.message}</p>
@@ -91,7 +91,7 @@ const Juego = ({ jugadores, onFin, onAddPlayer, mode = 'normal' }) => {
   // Show empty state
   if (mazo.length === 0) {
     return (
-      <div className="p-4 flex flex-col justify-center items-center text-center min-h-screen">
+      <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh">
         <div className="bg-yellow-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
           <h2 className="text-lg font-medium">No hay cartas disponibles</h2>
           <p className="text-sm mt-2">Necesitas agregar cartas a la base de datos</p>
@@ -101,7 +101,7 @@ const Juego = ({ jugadores, onFin, onAddPlayer, mode = 'normal' }) => {
   }
 
   return (
-    <div className="p-4 flex flex-col justify-center items-center text-center min-h-screen relative">
+    <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh relative">
       <div className="absolute top-2 left-2 text-xs bg-black/40 px-2 py-1 rounded">
         {modeLabel}
       </div>
