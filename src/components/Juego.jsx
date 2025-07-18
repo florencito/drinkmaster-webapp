@@ -9,6 +9,8 @@ const fondos = [
   'bg-gradient-to-br from-amber-500 to-orange-600',
 ]
 
+const MAX_CARTAS = 25
+
 const barajar = (arr) => {
   const copia = [...arr]
   for (let i = copia.length - 1; i > 0; i--) {
@@ -29,7 +31,8 @@ const Juego = ({ jugadores, onFin, onAddPlayer, mode = 'normal' }) => {
 
   useEffect(() => {
     if (!loading) {
-      setMazo(barajar(cards))
+      const barajado = barajar(cards)
+      setMazo(barajado.slice(0, MAX_CARTAS))
       setIndice(0)
     }
   }, [cards, loading])
@@ -118,9 +121,6 @@ const Juego = ({ jugadores, onFin, onAddPlayer, mode = 'normal' }) => {
       >
         Siguiente
       </button>
-      <div className="mt-4 text-sm text-gray-500">
-        Carta {indice + 1} de {mazo.length}
-      </div>
       <button
         className="absolute bottom-4 right-4 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white px-4 py-2 rounded-full shadow-md transition"
         onClick={abrirAgregar}
