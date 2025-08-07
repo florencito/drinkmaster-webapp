@@ -62,41 +62,51 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
 
   const processResult = (correct) => {
     let eliminatedPlayer = null
-    let updated = playersState.map((p, i) => {
+    const updated = playersState.map((p, i) => {
       if (i !== currentIndex) return p
       const newLives = correct ? p.lives : p.lives - 1
-      if (newLives < p.lives) {
-        setLifeAnim(true)
-        setTimeout(() => setLifeAnim(false), 600)
+      if (!correct) {
+        if (newLives <= 0) eliminatedPlayer = p.name
       }
-      if (newLives <= 0) eliminatedPlayer = p.name
       return { ...p, lives: newLives }
     })
-    updated = updated.filter((p) => p.lives > 0)
-    let newOrder = eliminationOrder
-    if (eliminatedPlayer) {
-      newOrder = [...eliminationOrder, eliminatedPlayer]
-      setEliminationOrder(newOrder)
-    }
-    if (updated.length <= 1) {
-      const ranking = [
-        updated[0]?.name,
-        ...newOrder.slice().reverse(),
-      ].filter(Boolean)
-      setPlayersState(updated)
-      onFinish(ranking)
-      return
-    }
-    const eliminated = !!eliminatedPlayer
-    let nextIndex
-    if (eliminated) {
-      nextIndex = currentIndex >= updated.length ? 0 : currentIndex
-    } else {
-      nextIndex = (currentIndex + 1) % updated.length
-    }
+    if (!correct) setLifeAnim(true)
     setPlayersState(updated)
-    setCurrentIndex(nextIndex)
-    setStage('choose')
+
+    const finalize = () => {
+      if (!correct) setLifeAnim(false)
+      const filtered = updated.filter((p) => p.lives > 0)
+      let newOrder = eliminationOrder
+      if (eliminatedPlayer) {
+        newOrder = [...eliminationOrder, eliminatedPlayer]
+        setEliminationOrder(newOrder)
+      }
+      if (filtered.length <= 1) {
+        const ranking = [
+          filtered[0]?.name,
+          ...newOrder.slice().reverse(),
+        ].filter(Boolean)
+        setPlayersState(filtered)
+        onFinish(ranking)
+        return
+      }
+      const eliminated = !!eliminatedPlayer
+      let nextIndex
+      if (eliminated) {
+        nextIndex = currentIndex >= filtered.length ? 0 : currentIndex
+      } else {
+        nextIndex = (currentIndex + 1) % filtered.length
+      }
+      setPlayersState(filtered)
+      setCurrentIndex(nextIndex)
+      setStage('choose')
+    }
+
+    if (!correct) {
+      setTimeout(finalize, 600)
+    } else {
+      finalize()
+    }
   }
 
   const handleResult = (correct) => {
@@ -132,7 +142,7 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
 
   return (
     <div
-      className={`p-4 flex flex-col items-center text-center min-h-dvh ${
+      className={`p-4 flex flex-col items-center justify-center text-center min-h-dvh ${
         feedback === 'correct' ? 'animate-flash bg-green-500/20' : ''
       } ${feedback === 'wrong' ? 'animate-shake bg-red-500/20' : ''}`}
     >

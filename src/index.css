@@ -44,6 +44,16 @@ body,
       opacity: 0;
     }
   }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
   .animate-flash {
     animation: flash 0.6s ease-in-out;
   }
@@ -52,5 +62,8 @@ body,
   }
   .animate-pop {
     animation: pop 0.6s forwards;
+  }
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out;
   }
 }
