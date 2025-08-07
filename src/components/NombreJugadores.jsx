@@ -31,7 +31,7 @@ const NombreJugadores = ({ onContinue }) => {
   }
 
   return (
-    <div className="p-4 text-center max-w-md mx-auto flex flex-col items-center justify-center min-h-dvh">
+    <div className="p-4 text-center max-w-md mx-auto flex flex-col items-center justify-center min-h-dvh animate-fade-zoom">
       <h2 className="text-2xl font-bold mb-6">Nombres de jugadores</h2>
       <div className="space-y-3">
         {nombres.map((nombre, i) => (
