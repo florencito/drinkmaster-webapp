@@ -10,6 +10,7 @@ const useTriviaQuestion = () => {
   const fetchQuestion = async (category, difficulty) => {
     setLoading(true)
     setQuestion(null)
+    setError(null)
     const key = `${category}-${difficulty}`
     let pool = pools[key] || []
     if (pool.length === 0) {
@@ -21,23 +22,21 @@ const useTriviaQuestion = () => {
       if (error) {
         setError(error)
         setLoading(false)
-        return false
+        return { success: false }
       }
       pool = data || []
     }
     if (pool.length === 0) {
-      setError(new Error('no questions'))
       setLoading(false)
-      return false
+      return { success: false, noQuestions: true }
     }
     const index = Math.floor(Math.random() * pool.length)
     const selected = pool[index]
     const remaining = [...pool.slice(0, index), ...pool.slice(index + 1)]
     setPools({ ...pools, [key]: remaining })
     setQuestion(selected)
-    setError(null)
     setLoading(false)
-    return true
+    return { success: true }
   }
 
   return { question, loading, error, fetchQuestion }

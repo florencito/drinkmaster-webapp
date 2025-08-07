@@ -32,9 +32,10 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
     setShowOptions(false)
     setRevealed(false)
     setStage('question')
-    const ok = await fetchQuestion(cat, settings.difficulty)
-    if (!ok) {
-      onFinish()
+    const res = await fetchQuestion(cat, settings.difficulty)
+    if (!res.success) {
+      if (res.noQuestions) onFinish()
+      return
     }
   }
 
@@ -73,6 +74,27 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
 
   if (!currentPlayer) return null
 
+  if (stage === 'question' && loading) {
+    return (
+      <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh">
+        <div className="bg-gray-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
+          <h2 className="text-lg font-medium">Cargando pregunta...</h2>
+        </div>
+      </div>
+    )
+  }
+
+  if (stage === 'question' && error) {
+    return (
+      <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh">
+        <div className="bg-red-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
+          <h2 className="text-lg font-medium">Error al cargar la pregunta</h2>
+          <p className="text-sm mt-2">{error.message}</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh">
       <div className="mb-4">
@@ -95,60 +117,56 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
           ))}
         </div>
       )}
-      {stage === 'question' && (
+      {stage === 'question' && question && (
         <div className="w-full max-w-md">
-          {loading && <p>Cargando pregunta...</p>}
-          {error && <p>Error al cargar pregunta</p>}
-          {question && (
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium">{question.question}</h3>
-              {showOptions && (
-                <ul className="text-left list-disc list-inside">
-                  {question.options.map((opt, i) => (
-                    <li key={i}>{opt}</li>
-                  ))}
-                </ul>
-              )}
-              {!showOptions && currentPlayer.jokers > 0 && (
-                <button
-                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
-                  onClick={useJoker}
-                >
-                  Usar comodín ({currentPlayer.jokers})
-                </button>
-              )}
-              {!revealed && (
-                <button
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-md"
-                  onClick={() => setRevealed(true)}
-                >
-                  Mostrar respuesta
-                </button>
-              )}
-              {revealed && (
-                <div className="space-y-2">
-                  <p className="font-semibold">Respuesta: {question.correct_answer}</p>
-                  {question.explanation && (
-                    <p className="text-sm italic">{question.explanation}</p>
-                  )}
-                  <div className="flex justify-center space-x-4">
-                    <button
-                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
-                      onClick={() => handleResult(true)}
-                    >
-                      Acertó
-                    </button>
-                    <button
-                      className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full shadow-md"
-                      onClick={() => handleResult(false)}
-                    >
-                      Falló
-                    </button>
-                  </div>
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium">{question.question}</h3>
+            {showOptions && (
+              <ul className="text-left list-disc list-inside">
+                {question.options.map((opt, i) => (
+                  <li key={i}>{opt}</li>
+                ))}
+              </ul>
+            )}
+            {!showOptions && currentPlayer.jokers > 0 && (
+              <button
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
+                onClick={useJoker}
+              >
+                Usar comodín ({currentPlayer.jokers})
+              </button>
+            )}
+            {!revealed && (
+              <button
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-md"
+                onClick={() => setRevealed(true)}
+              >
+                Mostrar respuesta
+              </button>
+            )}
+            {revealed && (
+              <div className="space-y-2">
+                <p className="font-semibold">Respuesta: {question.correct_answer}</p>
+                {question.explanation && (
+                  <p className="text-sm italic">{question.explanation}</p>
+                )}
+                <div className="flex justify-center space-x-4">
+                  <button
+                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
+                    onClick={() => handleResult(true)}
+                  >
+                    Acertó
+                  </button>
+                  <button
+                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full shadow-md"
+                    onClick={() => handleResult(false)}
+                  >
+                    Falló
+                  </button>
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
