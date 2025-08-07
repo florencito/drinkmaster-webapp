@@ -127,7 +127,7 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
               )}
               {revealed && (
                 <div className="space-y-2">
-                  <p className="font-semibold">Respuesta: {question.answer}</p>
+                  <p className="font-semibold">Respuesta: {question.correct_answer}</p>
                   {question.explanation && (
                     <p className="text-sm italic">{question.explanation}</p>
                   )}

@@ -14,8 +14,8 @@ const useTriviaQuestion = () => {
     let pool = pools[key] || []
     if (pool.length === 0) {
       const { data, error } = await supabase
-        .from('survival_questions')
-        .select('id, question, options, answer, explanation')
+        .from('questions_survival')
+        .select('id, question, options, correct_answer, explanation')
         .eq('category', category)
         .eq('difficulty', difficulty)
       if (error) {
