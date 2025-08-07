@@ -16,6 +16,7 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
       lastCategory: null,
     })),
   )
+  const [eliminationOrder, setEliminationOrder] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [stage, setStage] = useState('choose')
   const [showOptions, setShowOptions] = useState(false)
@@ -34,7 +35,13 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
     setStage('question')
     const res = await fetchQuestion(cat, settings.difficulty)
     if (!res.success) {
-      if (res.noQuestions) onFinish()
+      if (res.noQuestions) {
+        const ranking = [
+          ...playersState.map((p) => p.name),
+          ...eliminationOrder.slice().reverse(),
+        ]
+        onFinish(ranking)
+      }
       return
     }
   }
@@ -49,18 +56,29 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
   }
 
   const handleResult = (correct) => {
+    let eliminatedPlayer = null
     let updated = playersState.map((p, i) => {
       if (i !== currentIndex) return p
       const newLives = correct ? p.lives : p.lives - 1
+      if (newLives <= 0) eliminatedPlayer = p.name
       return { ...p, lives: newLives }
     })
     updated = updated.filter((p) => p.lives > 0)
-    const eliminated = !updated.some((p) => p.name === currentPlayer.name)
+    let newOrder = eliminationOrder
+    if (eliminatedPlayer) {
+      newOrder = [...eliminationOrder, eliminatedPlayer]
+      setEliminationOrder(newOrder)
+    }
     if (updated.length <= 1) {
+      const ranking = [
+        updated[0]?.name,
+        ...newOrder.slice().reverse(),
+      ].filter(Boolean)
       setPlayersState(updated)
-      onFinish()
+      onFinish(ranking)
       return
     }
+    const eliminated = !!eliminatedPlayer
     let nextIndex
     if (eliminated) {
       nextIndex = currentIndex >= updated.length ? 0 : currentIndex
