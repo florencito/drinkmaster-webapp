@@ -1,135 +1,85 @@
-**DrinkMaster** es una aplicación web de retos para juegos de beber con cartas dinámicas, construida con React y Supabase. Está pensada para ser divertida, personalizable y fácil de escalar con un mini CMS para gestionar las cartas.
+# DrinkMaster
 
----
+Juego de preguntas y retos para beber diseñado para dinamizar reuniones y fiestas.
 
-## 📋 Prerrequisitos
+## Descripción General
+- **Qué hace:** Propone preguntas y desafíos interactivos a los participantes, mostrando animaciones y llevando un control del puntaje.
+- **A quién está dirigido:** Grupos de amigos mayores de edad que buscan una alternativa digital para juegos de bebidas.
+- **Modos de juego:**
+  - **Clásico:** Rondas de preguntas con opciones.
+  - **Hardcore:** Retos rápidos y castigados.
+  - **Supervivencia:** Cada jugador cuenta con vidas limitadas para responder correctamente.
+- **Tecnologías utilizadas:** React, Vite, Tailwind CSS, Node.js, Supabase, Vercel, PostgreSQL.
 
-Antes de empezar, asegúrate de tener instalado:
+## Características Principales
+- Preguntas con opciones múltiples.
+- Sistema de vidas y ranking final.
+- Comodines de ayuda para cada jugador.
+- Animaciones y transiciones para una experiencia más entretenida.
 
-- Node.js (v18+ recomendado)
+## Instalación
+### Requisitos
+- Node.js 18+
+- npm
 - Git
-- Una cuenta en [Supabase](https://supabase.com)
-- Una cuenta en [Vercel](https://vercel.com)
 
----
-
-## ⚙️ Configuración
-
-### 1. Clona el repositorio
-
+### Clonar el proyecto
 ```bash
-git clone https://github.com/tu-usuario/drinkmaster.git
-cd drinkmaster
+git clone https://github.com/tu-usuario/drinkmaster-webapp.git
+cd drinkmaster-webapp
 ```
 
-### 2. Instala dependencias
-
+### Instalar dependencias
 ```bash
 npm install
 ```
 
-### 3. Configura las variables de entorno
-
-Crea un archivo `.env` en la raíz del proyecto con esta estructura:
-
+### Ejecutar en modo desarrollo
+```bash
+npm run dev
 ```
+Visita `http://localhost:5173` desde tu navegador.
+
+### Variables de entorno
+Crea un archivo `.env` en la raíz del proyecto:
+```env
 VITE_SUPABASE_URL=tu-url-de-supabase
 VITE_SUPABASE_ANON_KEY=tu-anon-key
 ```
 
-> 🔐 Estos valores se obtienen en la sección **Project Settings > API** dentro de tu proyecto en Supabase.
-
----
-
-### 4. Estructura esperada en Supabase
-
-Crea una tabla llamada `cards` con los siguientes campos:
-
-| Campo     | Tipo     |
-|-----------|----------|
-| id        | UUID     |
-| texto     | text     |
-| activo    | boolean  |
-
-> Asegúrate de activar las políticas RLS y crear estas dos políticas:
-
-#### Para leer:
-
-```sql
-CREATE POLICY "Allow all" ON public.cards
-FOR SELECT
-USING (true);
+## Estructura del Proyecto
 ```
-
-#### Para insertar:
-
-```sql
-CREATE POLICY "Allow insert for all" ON public.cards
-FOR INSERT
-WITH CHECK (true);
-```
-
----
-
-### 5. Corre el proyecto localmente
-
-```bash
-npm run dev
-```
-
-Visita [http://localhost:5173](http://localhost:5173) en tu navegador.
-
----
-
-## 🚀 Despliegue en Vercel
-
-1. Sube tu proyecto a GitHub.
-2. Entra a [vercel.com](https://vercel.com) y haz clic en "Add New Project".
-3. Importa el repositorio desde GitHub.
-4. Agrega las variables de entorno `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` en la configuración de Vercel.
-5. Dale Deploy.
-
-> 🎉 ¡Cada vez que se haga push a `main`, se redeploya automáticamente gracias a Vercel (CI/CD mínimo implementado)!
-
----
-
-## 🛠️ Troubleshooting básico
-
-| Problema | Posible causa | Solución |
-|---------|----------------|-----------|
-| No carga ninguna carta | Falta de permisos en Supabase | Verifica que hayas creado las políticas de RLS correctamente |
-| No se despliega bien en Vercel | Ruta inexistente (ej: `/admin`) | Asegúrate de tener un router (React Router o similar) que maneje esa ruta |
-| No se puede insertar desde el dashboard | Falta de permiso `INSERT` | Agrega la política `WITH CHECK (true)` correctamente en Supabase |
-
----
-
-## 📂 Estructura básica del proyecto
-
-```
+public/
 src/
-├── components/
-│   ├── Inicio.jsx
-│   ├── Juego.jsx
-│   ├── Fin.jsx
-│   └── NombreJugadores.jsx
-├── dashboard.jsx       ← panel admin accesible en /admin-floren-2025
-├── supabaseClient.js   ← conexión con Supabase
-├── App.jsx
-└── main.jsx
+├─ components/
+├─ assets/
+├─ App.jsx
+├─ index.css
+└─ main.jsx
+tailwind.config.js
+vite.config.js
 ```
 
----
+## Modo de Uso
+1. Inicia el servidor local y abre el enlace en el navegador.
+2. El anfitrión (host) mantiene la aplicación abierta, comparte la pantalla y dirige el ritmo del juego.
+3. Los modos disponibles son:
+   - **Clásico:** Preguntas de cultura general y retos sencillos.
+   - **Hardcore:** Retos extremos con penalizaciones fuertes.
+   - **Supervivencia:** Responde correctamente para no perder tus vidas.
 
-## ✨ Autor
+## Base de Datos
+- Servicio: **Supabase** (PostgreSQL)
+- Tabla: `survival_questions`
+- Columnas principales:
+  - `id` (uuid)
+  - `question` (text)
+  - `options` (jsonb)
+  - `correct_option` (text)
+  - `created_at` (timestamp)
 
-Este proyecto fue inicialmente planteado para desarrollarse en equipo, pero debido a circunstancias externas, fue completado de forma individual por:
+## Autores
+- **Florencio Reyes** – Desarrollo full-stack y mantenimiento general del proyecto.
 
-- **Florencio Reyes** – Infraestructura, CI/CD, Supabase, desarrollo frontend, lógica del juego y panel de administración.
-
----
-
-## 📌 Licencia
-
-Proyecto académico con fines demostrativos. ¡Disfrútalo con responsabilidad!
-
----
+## Licencia
+Este proyecto está bajo la licencia MIT.
