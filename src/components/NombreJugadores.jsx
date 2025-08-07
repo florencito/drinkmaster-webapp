@@ -31,20 +31,20 @@ const NombreJugadores = ({ onContinue }) => {
   }
 
   return (
-    <div className="p-4 text-center max-w-md mx-auto flex flex-col items-center justify-center min-h-dvh">
-      <h2 className="text-2xl font-bold mb-6">Nombres de jugadores</h2>
-      <div className="space-y-3">
+    <div className="p-4 text-center max-w-md mx-auto flex flex-col items-center justify-center min-h-dvh animate-fade-zoom">
+      <h2 className="text-3xl font-bold mb-6 drop-shadow">Nombres de jugadores</h2>
+      <div className="space-y-4 w-full">
         {nombres.map((nombre, i) => (
-          <div key={i} className="flex items-center space-x-2">
+          <div key={i} className="flex items-center gap-2">
             <input
-              className="border border-zinc-300 rounded px-3 py-2 w-full text-zinc-900"
+              className="w-full px-4 py-2 rounded-full bg-white/90 shadow-inner text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder={`Jugador ${i + 1}`}
               value={nombre}
               onChange={(e) => handleChange(i, e.target.value)}
             />
             {nombres.length > MIN_JUGADORES && (
               <button
-                className="text-red-500 font-bold px-2 hover:text-red-600 transition"
+                className="text-red-500 font-bold px-3 hover:text-red-600 transition"
                 onClick={() => removerJugador(i)}
               >
                 ✕
@@ -53,21 +53,19 @@ const NombreJugadores = ({ onContinue }) => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center space-x-4 mt-6">
-        <button
-          className="bg-blue-600 hover:bg-blue-700 active:scale-95 disabled:bg-blue-400 text-white px-4 py-2 rounded transition"
-          onClick={agregarJugador}
-          disabled={nombres.length >= MAX_JUGADORES}
-        >
-          Añadir jugador
-        </button>
-      </div>
       <button
-        className="mt-8 bg-green-600 hover:bg-green-700 active:scale-95 disabled:bg-green-400 text-white px-6 py-3 rounded-full transition w-full"
+        className="mt-6 w-full bg-blue-600 hover:bg-blue-700 active:scale-95 disabled:bg-blue-400 text-white px-5 py-2 rounded-full shadow-md transition flex items-center justify-center gap-2"
+        onClick={agregarJugador}
+        disabled={nombres.length >= MAX_JUGADORES}
+      >
+        ➕ Añadir jugador
+      </button>
+      <button
+        className="mt-8 w-full bg-green-600 hover:bg-green-700 active:scale-95 disabled:bg-green-400 text-white px-6 py-3 rounded-full shadow-lg transition flex items-center justify-center gap-2"
         onClick={continuar}
         disabled={!tieneMinimo}
       >
-        ¡Comenzar partida!
+        🚀 ¡Comenzar partida!
       </button>
     </div>
   )

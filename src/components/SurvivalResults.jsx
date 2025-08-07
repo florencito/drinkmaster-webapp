@@ -55,17 +55,20 @@ const SurvivalResults = ({ ranking = [] }) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-dvh text-center px-4">
-      <h1 className="text-3xl font-bold mb-6">Podio Final 🏆</h1>
-      <ol className="w-full max-w-md mb-6 space-y-2">
+    <div className="flex flex-col items-center justify-center min-h-dvh text-center px-4 animate-fade-zoom">
+      <h1 className="text-5xl font-extrabold mb-8 bg-gradient-to-r from-pink-500 to-yellow-500 bg-clip-text text-transparent animate-fade-in">
+        ¡Podio Final! 🏆
+      </h1>
+      <ol className="w-full max-w-md mb-8 space-y-3">
         {ranking.map((name, idx) => (
           <li
             key={name}
-            className={
+            className={`px-6 py-3 rounded-full shadow-md flex items-center justify-center animate-fade-in-up ${
               idx === 0
-                ? 'text-2xl font-bold text-yellow-300 flex items-center justify-center'
-                : 'text-xl'
-            }
+                ? 'bg-yellow-500/20 text-yellow-300 text-xl font-bold'
+                : 'bg-white/10 text-white'
+            }`}
+            style={{ animationDelay: `${idx * 100}ms` }}
           >
             {idx === 0 && <span className="mr-2">🌟</span>}
             {idx === 1 && <span className="mr-2">🥈</span>}
@@ -76,10 +79,11 @@ const SurvivalResults = ({ ranking = [] }) => {
         ))}
       </ol>
       <button
-        className="bg-blue-500 hover:bg-blue-600 active:scale-95 text-white px-8 py-3 rounded-full shadow-md transition duration-300"
+        className="mt-4 flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-full shadow-lg transition duration-300 animate-fade-in-up"
         onClick={handleClick}
       >
-        Volver al inicio
+        <span className="text-xl">🏠</span>
+        Regresar al inicio
       </button>
     </div>
   )
