@@ -7,6 +7,13 @@ const categorias = [
   { label: 'Deportes', value: 'deportes' },
 ]
 
+const fondos = [
+  'bg-gradient-to-br from-pink-500 to-fuchsia-600',
+  'bg-gradient-to-br from-emerald-500 to-lime-500',
+  'bg-gradient-to-br from-sky-500 to-indigo-500',
+  'bg-gradient-to-br from-amber-500 to-orange-600',
+]
+
 const SurvivalGame = ({ players, settings, onFinish }) => {
   const [playersState, setPlayersState] = useState(
     players.map((name) => ({
@@ -24,6 +31,7 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
   const [feedback, setFeedback] = useState(null)
   const [lifeAnim, setLifeAnim] = useState(false)
   const [jokerAnim, setJokerAnim] = useState(false)
+  const [questionCount, setQuestionCount] = useState(-1)
   const { question, loading, error, fetchQuestion } = useTriviaQuestion()
 
   const currentPlayer = playersState[currentIndex]
@@ -47,6 +55,7 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
       }
       return
     }
+    setQuestionCount((prev) => prev + 1)
   }
 
   const useJoker = () => {
@@ -174,61 +183,67 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
         </div>
       )}
       {stage === 'question' && question && (
-        <div className="w-full max-w-md">
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium">{question.question}</h3>
+        <div className="w-full max-w-md flex flex-col items-center">
+          <div
+            className={`w-full text-white rounded-xl shadow-xl p-6 mb-6 ${fondos[(questionCount >= 0 ? questionCount : 0) % fondos.length]}`}
+          >
+            <h3 className="text-lg font-medium break-words">{question.question}</h3>
             {showOptions && (
-              <div className="grid gap-2">
+              <div className="mt-4 grid gap-2">
                 {question.options.map((opt, i) => (
                   <button
                     key={i}
                     disabled
-                    className="w-full bg-purple-700/40 hover:bg-purple-700/60 text-white px-4 py-2 rounded-lg shadow-md cursor-default"
+                    className="w-full bg-white/20 text-white px-4 py-2 rounded-full shadow-md cursor-default"
                   >
                     {opt}
                   </button>
                 ))}
               </div>
             )}
+            {revealed && (
+              <div className="mt-4 space-y-2">
+                <p className="font-semibold">Respuesta: {question.answer}</p>
+                {question.explanation && (
+                  <p className="text-sm italic">{question.explanation}</p>
+                )}
+              </div>
+            )}
+          </div>
+          <div className="w-full flex flex-col gap-3">
             {!showOptions && currentPlayer.jokers > 0 && (
               <button
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
+                className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
                 onClick={useJoker}
               >
-                Usar comodín ({currentPlayer.jokers})
+                🃏 Usar comodín ({currentPlayer.jokers})
               </button>
             )}
             {!revealed && (
               <button
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-md"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-md"
                 onClick={() => setRevealed(true)}
               >
                 Mostrar respuesta
               </button>
             )}
-            {revealed && (
-              <div className="space-y-2">
-                <p className="font-semibold">Respuesta: {question.answer}</p>
-                {question.explanation && (
-                  <p className="text-sm italic">{question.explanation}</p>
-                )}
-                <div className="flex justify-center gap-4">
-                  <button
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
-                    onClick={() => handleResult(true)}
-                  >
-                    Acertó
-                  </button>
-                  <button
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full shadow-md"
-                    onClick={() => handleResult(false)}
-                  >
-                    Falló
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
+          {revealed && (
+            <div className="w-full flex flex-col gap-3">
+              <button
+                className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
+                onClick={() => handleResult(true)}
+              >
+                Acertó
+              </button>
+              <button
+                className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full shadow-md"
+                onClick={() => handleResult(false)}
+              >
+                Falló
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
