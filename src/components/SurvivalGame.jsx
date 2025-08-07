@@ -2,8 +2,8 @@ import { useState } from 'react'
 import useTriviaQuestion from '../hooks/useTriviaQuestion'
 
 const categorias = [
-  { label: 'Cine y TV', value: 'cine_y_tv' },
-  { label: 'Cultura General', value: 'cultura_general' },
+  { label: 'Cine y TV', value: 'cine y tv' },
+  { label: 'Cultura General', value: 'cultura general' },
   { label: 'Deportes', value: 'deportes' },
 ]
 
