@@ -21,6 +21,9 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
   const [stage, setStage] = useState('choose')
   const [showOptions, setShowOptions] = useState(false)
   const [revealed, setRevealed] = useState(false)
+  const [feedback, setFeedback] = useState(null)
+  const [lifeAnim, setLifeAnim] = useState(false)
+  const [jokerAnim, setJokerAnim] = useState(false)
   const { question, loading, error, fetchQuestion } = useTriviaQuestion()
 
   const currentPlayer = playersState[currentIndex]
@@ -53,41 +56,65 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
     )
     setPlayersState(updated)
     setShowOptions(true)
+    setJokerAnim(true)
+    setTimeout(() => setJokerAnim(false), 600)
+  }
+
+  const processResult = (correct) => {
+    let eliminatedPlayer = null
+    const updated = playersState.map((p, i) => {
+      if (i !== currentIndex) return p
+      const newLives = correct ? p.lives : p.lives - 1
+      if (!correct) {
+        if (newLives <= 0) eliminatedPlayer = p.name
+      }
+      return { ...p, lives: newLives }
+    })
+    if (!correct) setLifeAnim(true)
+    setPlayersState(updated)
+
+    const finalize = () => {
+      if (!correct) setLifeAnim(false)
+      const filtered = updated.filter((p) => p.lives > 0)
+      let newOrder = eliminationOrder
+      if (eliminatedPlayer) {
+        newOrder = [...eliminationOrder, eliminatedPlayer]
+        setEliminationOrder(newOrder)
+      }
+      if (filtered.length <= 1) {
+        const ranking = [
+          filtered[0]?.name,
+          ...newOrder.slice().reverse(),
+        ].filter(Boolean)
+        setPlayersState(filtered)
+        onFinish(ranking)
+        return
+      }
+      const eliminated = !!eliminatedPlayer
+      let nextIndex
+      if (eliminated) {
+        nextIndex = currentIndex >= filtered.length ? 0 : currentIndex
+      } else {
+        nextIndex = (currentIndex + 1) % filtered.length
+      }
+      setPlayersState(filtered)
+      setCurrentIndex(nextIndex)
+      setStage('choose')
+    }
+
+    if (!correct) {
+      setTimeout(finalize, 600)
+    } else {
+      finalize()
+    }
   }
 
   const handleResult = (correct) => {
-    let eliminatedPlayer = null
-    let updated = playersState.map((p, i) => {
-      if (i !== currentIndex) return p
-      const newLives = correct ? p.lives : p.lives - 1
-      if (newLives <= 0) eliminatedPlayer = p.name
-      return { ...p, lives: newLives }
-    })
-    updated = updated.filter((p) => p.lives > 0)
-    let newOrder = eliminationOrder
-    if (eliminatedPlayer) {
-      newOrder = [...eliminationOrder, eliminatedPlayer]
-      setEliminationOrder(newOrder)
-    }
-    if (updated.length <= 1) {
-      const ranking = [
-        updated[0]?.name,
-        ...newOrder.slice().reverse(),
-      ].filter(Boolean)
-      setPlayersState(updated)
-      onFinish(ranking)
-      return
-    }
-    const eliminated = !!eliminatedPlayer
-    let nextIndex
-    if (eliminated) {
-      nextIndex = currentIndex >= updated.length ? 0 : currentIndex
-    } else {
-      nextIndex = (currentIndex + 1) % updated.length
-    }
-    setPlayersState(updated)
-    setCurrentIndex(nextIndex)
-    setStage('choose')
+    setFeedback(correct ? 'correct' : 'wrong')
+    setTimeout(() => {
+      processResult(correct)
+      setFeedback(null)
+    }, 600)
   }
 
   if (!currentPlayer) return null
@@ -114,19 +141,30 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
   }
 
   return (
-    <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh">
-      <div className="mb-4">
-        <h2 className="text-xl font-bold">Turno de {currentPlayer.name}</h2>
-        <p>
-          Vidas: {currentPlayer.lives} | Comodines: {currentPlayer.jokers}
-        </p>
+    <div
+      className={`p-4 flex flex-col items-center justify-center text-center min-h-dvh ${
+        feedback === 'correct' ? 'animate-flash bg-green-500/20' : ''
+      } ${feedback === 'wrong' ? 'animate-shake bg-red-500/20' : ''}`}
+    >
+      <div className="mb-6 flex flex-col items-center">
+        <h2 className="text-xl font-bold mb-2">Turno de {currentPlayer.name}</h2>
+        <div className="flex gap-6 text-lg">
+          <div className={`flex items-center gap-1 ${lifeAnim ? 'animate-pop' : ''}`}>
+            <span>❤️</span>
+            <span>{currentPlayer.lives}</span>
+          </div>
+          <div className={`flex items-center gap-1 ${jokerAnim ? 'animate-flash' : ''}`}>
+            <span>🃏</span>
+            <span>{currentPlayer.jokers}</span>
+          </div>
+        </div>
       </div>
       {stage === 'choose' && (
         <div className="space-y-4 w-full max-w-xs">
           {categorias.map((cat) => (
             <button
               key={cat.value}
-              className="w-full bg-purple-600 hover:bg-purple-700 active:scale-95 text-white px-6 py-3 rounded-full shadow-lg transition duration-300 disabled:bg-purple-400"
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full shadow-lg disabled:bg-purple-400"
               onClick={() => startQuestion(cat.value)}
               disabled={currentPlayer.lastCategory === cat.value}
             >
@@ -140,11 +178,17 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
           <div className="space-y-4">
             <h3 className="text-lg font-medium">{question.question}</h3>
             {showOptions && (
-              <ul className="text-left list-disc list-inside">
+              <div className="grid gap-2">
                 {question.options.map((opt, i) => (
-                  <li key={i}>{opt}</li>
+                  <button
+                    key={i}
+                    disabled
+                    className="w-full bg-purple-700/40 hover:bg-purple-700/60 text-white px-4 py-2 rounded-lg shadow-md cursor-default"
+                  >
+                    {opt}
+                  </button>
                 ))}
-              </ul>
+              </div>
             )}
             {!showOptions && currentPlayer.jokers > 0 && (
               <button
@@ -168,7 +212,7 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
                 {question.explanation && (
                   <p className="text-sm italic">{question.explanation}</p>
                 )}
-                <div className="flex justify-center space-x-4">
+                <div className="flex justify-center gap-4">
                   <button
                     className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
                     onClick={() => handleResult(true)}
