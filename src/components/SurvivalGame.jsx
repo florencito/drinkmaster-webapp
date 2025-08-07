@@ -211,7 +211,7 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
             )}
           </div>
           <div className="w-full flex flex-col gap-3">
-            {!showOptions && currentPlayer.jokers > 0 && (
+            {!showOptions && !revealed && currentPlayer.jokers > 0 && (
               <button
                 className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
                 onClick={useJoker}
