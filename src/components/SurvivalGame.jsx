@@ -127,9 +127,10 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
               )}
               {revealed && (
                 <div className="space-y-2">
-                  <p className="font-semibold">
-                    Respuesta: {question.answer}
-                  </p>
+                  <p className="font-semibold">Respuesta: {question.answer}</p>
+                  {question.explanation && (
+                    <p className="text-sm italic">{question.explanation}</p>
+                  )}
                   <div className="flex justify-center space-x-4">
                     <button
                       className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full shadow-md"
