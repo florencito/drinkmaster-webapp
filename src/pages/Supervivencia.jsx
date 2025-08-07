@@ -1,15 +1,42 @@
-import React from 'react'
+import { useState } from 'react'
+import SurvivalConfig from '../components/SurvivalConfig'
+import NombreJugadores from '../components/NombreJugadores'
+import SurvivalGame from '../components/SurvivalGame'
+import Fin from '../components/Fin'
 
-const Supervivencia = () => (
-  <div className="min-h-screen bg-gradient-to-br from-fuchsia-900 via-purple-900 to-indigo-900 text-white flex flex-col items-center justify-center text-center p-4">
-    <h1 className="text-2xl font-bold mb-6">Estamos trabajando para traerte más modos de juego.</h1>
-    <button
-      className="bg-blue-500 hover:bg-blue-600 active:scale-95 text-white px-6 py-3 rounded-full shadow-md transition"
-      onClick={() => (window.location.href = '/')}
-    >
-      Regresar al inicio
-    </button>
-  </div>
-)
+const Supervivencia = () => {
+  const [phase, setPhase] = useState('config')
+  const [settings, setSettings] = useState(null)
+  const [players, setPlayers] = useState([])
+
+  return (
+    <div className="min-h-dvh bg-gradient-to-br from-fuchsia-900 via-purple-900 to-indigo-900 text-white">
+      {phase === 'config' && (
+        <SurvivalConfig
+          onStart={(cfg) => {
+            setSettings(cfg)
+            setPhase('nombres')
+          }}
+        />
+      )}
+      {phase === 'nombres' && (
+        <NombreJugadores
+          onContinue={(nombres) => {
+            setPlayers(nombres)
+            setPhase('juego')
+          }}
+        />
+      )}
+      {phase === 'juego' && (
+        <SurvivalGame
+          players={players}
+          settings={settings}
+          onFinish={() => setPhase('fin')}
+        />
+      )}
+      {phase === 'fin' && <Fin />}
+    </div>
+  )
+}
 
 export default Supervivencia
