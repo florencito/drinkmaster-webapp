@@ -1,8 +1,8 @@
 import React from 'react'
 
 const ResponsibilityPopup = ({ onClose }) => (
-  <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
-    <div className="bg-white text-black w-11/12 max-w-md mx-auto p-6 rounded-lg shadow-lg text-center space-y-4 m-4">
+  <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50 animate-fade-in">
+    <div className="bg-white text-black w-11/12 max-w-md mx-auto p-6 rounded-lg shadow-lg text-center space-y-4 m-4 animate-fade-zoom">
       <h2 className="text-xl font-bold">¡Bienvenido a DrinkMaster!</h2>
       <p className="text-sm md:text-base">
         Este juego está diseñado para mayores de 18 años.

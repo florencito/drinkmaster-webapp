@@ -109,28 +109,29 @@ const Juego = ({ jugadores, onFin, onAddPlayer, mode = 'normal' }) => {
         {modeLabel}
       </div>
       <div
-        className={`w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6 transition-colors duration-300 ${
+        key={indice}
+        className={`w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6 transition-colors duration-300 animate-fade-in-up ${
           fondos[indice % fondos.length]
         }`}
       >
-        <h2 className="text-lg font-medium">{textoCarta}</h2>
+        <h2 className="text-lg font-medium break-words">{textoCarta}</h2>
       </div>
       <button
-        className="bg-purple-600 hover:bg-purple-700 active:scale-95 text-white px-6 py-2 rounded-full shadow-md transition duration-300"
+        className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full shadow-md"
         onClick={siguienteCarta}
       >
         Siguiente
       </button>
       <button
-        className="absolute bottom-4 right-4 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white px-4 py-2 rounded-full shadow-md transition"
+        className="absolute bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-md"
         onClick={abrirAgregar}
       >
         Agregar jugador
       </button>
 
       {showAdd && (
-        <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
-          <div className="bg-white text-zinc-900 p-4 rounded-xl w-11/12 max-w-xs">
+        <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10 animate-fade-in">
+          <div className="bg-white text-zinc-900 p-4 rounded-xl w-11/12 max-w-xs animate-fade-zoom">
             <input
               className="border border-zinc-300 rounded w-full px-3 py-2 mb-4"
               placeholder="Nombre del jugador"
