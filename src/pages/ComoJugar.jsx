@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import howToPlay from '../../como-jugar.md?raw'
 
 const applyInlineStyles = (text) =>
@@ -74,19 +75,41 @@ const renderMarkdown = (markdown) => {
   return elements
 }
 
-const ComoJugar = () => (
-  <div className="min-h-screen bg-gradient-to-br from-fuchsia-900 via-purple-900 to-indigo-900 text-white flex flex-col p-4">
-    <div className="flex-1 overflow-y-auto w-full max-w-3xl mx-auto bg-black bg-opacity-20 p-6 rounded-lg text-left">
-      {renderMarkdown(howToPlay)}
+const ComoJugar = () => {
+  useEffect(() => {
+    const html = document.documentElement
+    const body = document.body
+    const root = document.getElementById('root')
+
+    const prevHtml = html.style.overflow
+    const prevBody = body.style.overflow
+    const prevRoot = root.style.overflow
+
+    html.style.overflow = 'auto'
+    body.style.overflow = 'auto'
+    root.style.overflow = 'auto'
+
+    return () => {
+      html.style.overflow = prevHtml || 'hidden'
+      body.style.overflow = prevBody || 'hidden'
+      root.style.overflow = prevRoot || 'hidden'
+    }
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-fuchsia-900 via-purple-900 to-indigo-900 text-white flex flex-col p-4">
+      <div className="flex-1 overflow-y-auto w-full max-w-3xl mx-auto bg-black bg-opacity-20 p-6 rounded-lg text-left">
+        {renderMarkdown(howToPlay)}
+      </div>
+      <button
+        className="mt-4 bg-blue-500 hover:bg-blue-600 active:scale-95 text-white px-6 py-3 rounded-full shadow-md transition w-full max-w-xs self-center"
+        onClick={() => (window.location.href = '/')}
+      >
+        Regresar al inicio
+      </button>
     </div>
-    <button
-      className="mt-4 bg-blue-500 hover:bg-blue-600 active:scale-95 text-white px-6 py-3 rounded-full shadow-md transition w-full max-w-xs self-center"
-      onClick={() => (window.location.href = '/')}
-    >
-      Regresar al inicio
-    </button>
-  </div>
-)
+  )
+}
 
 export default ComoJugar
 
