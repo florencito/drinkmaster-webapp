@@ -6,14 +6,14 @@ const Inicio = ({ onStart, mode = 'normal' }) => {
     classic: 'bg-emerald-500 hover:bg-emerald-600',
     hardcore: 'bg-red-500 hover:bg-red-600',
     survival: 'bg-amber-500 hover:bg-amber-600',
-    community: 'bg-blue-500 hover:bg-blue-600',
+    info: 'bg-blue-500 hover:bg-blue-600',
   }
 
   const icons = {
     classic: '🍹',
     hardcore: '🔥',
     survival: '🛡️',
-    community: '🤝',
+    info: '❓',
   }
 
   return (
@@ -47,12 +47,12 @@ const Inicio = ({ onStart, mode = 'normal' }) => {
           Modo Supervivencia
         </button>
         <button
-          className={`w-full ${styles.community} active:scale-95 text-white px-6 py-3 rounded-full shadow-lg transition duration-300 animate-fade-in-up`}
+          className={`w-full ${styles.info} active:scale-95 text-white px-6 py-3 rounded-full shadow-lg transition duration-300 animate-fade-in-up`}
           style={{ animationDelay: mode === 'normal' ? '400ms' : '300ms' }}
-          onClick={() => (window.location.href = '/comunidad')}
+          onClick={() => (window.location.href = '/como-jugar')}
         >
-          <span className="mr-2">{icons.community}</span>
-          Modo Comunidad
+          <span className="mr-2">{icons.info}</span>
+          ¿Cómo jugar?
         </button>
       </div>
     </div>
