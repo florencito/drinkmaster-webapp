@@ -31,8 +31,8 @@ const EditarJugadoresPopup = ({ players, onClose, onSave }) => {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50 animate-fade-in">
-      <div className="bg-white text-zinc-900 w-11/12 max-w-md mx-auto p-6 rounded-lg shadow-lg m-4 animate-fade-zoom">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50 animate-fade-in">
+      <div className="w-11/12 max-w-md mx-auto p-6 rounded-lg shadow-lg m-4 animate-fade-zoom bg-zinc-900/90 text-white backdrop-blur-md border border-white/10">
         <h2 className="text-xl font-bold text-center mb-4">Editar jugadores</h2>
         <div className="space-y-4">
           {nombres.map((nombre, i) => (
@@ -62,7 +62,7 @@ const EditarJugadoresPopup = ({ players, onClose, onSave }) => {
           ➕ Añadir jugador
         </button>
         <div className="flex justify-end gap-2 mt-6">
-          <button className="px-4 py-2 text-sm text-gray-600" onClick={onClose}>
+          <button className="px-4 py-2 text-sm text-gray-300 hover:text-white" onClick={onClose}>
             Cancelar
           </button>
           <button
