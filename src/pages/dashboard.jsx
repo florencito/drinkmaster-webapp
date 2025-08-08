@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import supabase from '../supabaseClient'
+import EditarJugadoresButton from '../components/EditarJugadoresButton'
 
 const Dashboard = () => {
   const [cards, setCards] = useState([])
@@ -19,6 +20,9 @@ const Dashboard = () => {
     mode: '',
     is_active: true,
   })
+  const [players, setPlayers] = useState(
+    JSON.parse(sessionStorage.getItem('players') || '[]'),
+  )
 
   const fetchCards = async () => {
     setLoading(true)
@@ -263,6 +267,10 @@ const Dashboard = () => {
           Agregar carta
         </button>
       </form>
+      <EditarJugadoresButton
+        players={players}
+        onPlayersChange={setPlayers}
+      />
     </div>
   )
 }

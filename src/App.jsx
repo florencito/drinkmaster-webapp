@@ -4,7 +4,7 @@ import Inicio from './components/Inicio'
 import NombreJugadores from './components/NombreJugadores'
 import Juego from './components/Juego'
 import Fin from './components/Fin'
-import EditarJugadoresPopup from './components/EditarJugadoresPopup'
+import EditarJugadoresButton from './components/EditarJugadoresButton'
 
 function App({ mode = 'normal', initialPhase = 'inicio' }) {
   const storedPlayers = JSON.parse(sessionStorage.getItem('players') || '[]')
@@ -12,7 +12,6 @@ function App({ mode = 'normal', initialPhase = 'inicio' }) {
   const [fase, setFase] = useState(
     storedPlayers.length >= 2 ? initialPhase : 'nombres'
   )
-  const [showEdit, setShowEdit] = useState(false)
   const [showPopup, setShowPopup] = useState(() => {
     const alreadySeen = sessionStorage.getItem('popupSeen') === 'true'
     return !alreadySeen
@@ -59,25 +58,11 @@ function App({ mode = 'normal', initialPhase = 'inicio' }) {
       )}
       {fase === 'fin' && <Fin onReiniciar={() => irA('inicio')} />}
 
-      {fase !== 'nombres' && (
-        <>
-          <button
-            className="fixed bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg text-xl"
-            onClick={() => setShowEdit(true)}
-          >
-            ✏️
-          </button>
-          {showEdit && (
-            <EditarJugadoresPopup
-              players={jugadores}
-              onClose={() => setShowEdit(false)}
-              onSave={(nombres) => {
-                actualizarJugadores(nombres)
-                setShowEdit(false)
-              }}
-            />
-          )}
-        </>
+      {fase !== 'nombres' && fase !== 'fin' && (
+        <EditarJugadoresButton
+          players={jugadores}
+          onPlayersChange={actualizarJugadores}
+        />
       )}
     </div>
   )
