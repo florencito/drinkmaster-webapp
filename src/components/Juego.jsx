@@ -20,14 +20,12 @@ const barajar = (arr) => {
   return copia
 }
 
-const Juego = ({ jugadores, onFin, onAddPlayer, mode = 'normal' }) => {
+const Juego = ({ jugadores, onFin, mode = 'normal' }) => {
   const { cards, loading, error } = useActiveCards(mode)
   const modeLabel = mode === 'hardcore' ? 'Modo Hardcore' : 'Modo Clásico'
   const [mazo, setMazo] = useState([])
   const [indice, setIndice] = useState(0)
   const [textoCarta, setTextoCarta] = useState('')
-  const [showAdd, setShowAdd] = useState(false)
-  const [nuevoNombre, setNuevoNombre] = useState('')
 
   useEffect(() => {
     if (!loading) {
@@ -54,19 +52,6 @@ const Juego = ({ jugadores, onFin, onAddPlayer, mode = 'normal' }) => {
     }
   }
 
-  const abrirAgregar = () => {
-    setNuevoNombre('')
-    setShowAdd(true)
-  }
-
-  const confirmarAgregar = () => {
-    const nombre = nuevoNombre.trim()
-    if (nombre) {
-      onAddPlayer(nombre)
-      setShowAdd(false)
-      setNuevoNombre('')
-    }
-  }
 
   // Show loading state
   if (loading) {
@@ -122,39 +107,6 @@ const Juego = ({ jugadores, onFin, onAddPlayer, mode = 'normal' }) => {
       >
         Siguiente
       </button>
-      <button
-        className="absolute bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-md"
-        onClick={abrirAgregar}
-      >
-        Agregar jugador
-      </button>
-
-      {showAdd && (
-        <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10 animate-fade-in">
-          <div className="bg-white text-zinc-900 p-4 rounded-xl w-11/12 max-w-xs animate-fade-zoom">
-            <input
-              className="border border-zinc-300 rounded w-full px-3 py-2 mb-4"
-              placeholder="Nombre del jugador"
-              value={nuevoNombre}
-              onChange={(e) => setNuevoNombre(e.target.value)}
-            />
-            <div className="flex justify-end space-x-2">
-              <button
-                className="px-3 py-1 text-sm text-gray-600"
-                onClick={() => setShowAdd(false)}
-              >
-                Cancelar
-              </button>
-              <button
-                className="px-3 py-1 text-sm bg-green-600 text-white rounded"
-                onClick={confirmarAgregar}
-              >
-                Agregar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
