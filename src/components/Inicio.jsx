@@ -41,15 +41,26 @@ const Inicio = ({ onStart, mode = 'normal' }) => {
     <div className="flex flex-col items-center justify-between min-h-dvh text-center px-4 py-8 animate-fade-zoom">
       {/* Hero Section - Elegant */}
       <div className="animate-slide-up space-y-4">
-        {/* Title with elegant gradient */}
-        <div className="relative">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-100 to-gray-200 bg-clip-text text-transparent mb-3 animate-float">
+        {/* Title with vibrant blue gradient like florenApps */}
+        <div className="relative mb-2">
+          {/* Main title with vibrant blue gradient */}
+          <h1 className="relative text-5xl md:text-6xl font-black tracking-tight bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent mb-3 animate-float z-10">
             DrinkMaster
           </h1>
-          {/* Subtle glow effect behind title */}
-          <div className="absolute inset-0 text-4xl md:text-5xl font-bold blur-xl opacity-20 bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
+          
+          {/* Multiple glow layers for depth */}
+          <div className="absolute inset-0 text-5xl md:text-6xl font-black blur-2xl opacity-30 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent animate-pulse">
             DrinkMaster
           </div>
+          <div className="absolute inset-0 text-5xl md:text-6xl font-black blur-xl opacity-40 bg-gradient-to-r from-cyan-300 via-blue-400 to-blue-500 bg-clip-text text-transparent">
+            DrinkMaster
+          </div>
+          <div className="absolute inset-0 text-5xl md:text-6xl font-black blur-lg opacity-20 bg-gradient-to-r from-blue-300 to-blue-700 bg-clip-text text-transparent">
+            DrinkMaster
+          </div>
+          
+          {/* Subtle background glow */}
+          <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-20 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent blur-3xl"></div>
         </div>
         
         {/* Elegant subtitle */}
