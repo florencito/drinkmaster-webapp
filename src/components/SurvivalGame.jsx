@@ -176,46 +176,47 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
         {remainingPlayers} jugadores restantes
       </div>
 
-      {/* Player Status Card */}
-      <div className="card w-full max-w-lg p-6 mb-8 animate-slide-up">
-        <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Turno de {currentPlayer.name}</h2>
+      {/* Player Status Card - Compact */}
+      <div className="w-full max-w-sm animate-slide-up">
+        {/* Current Player */}
+        <div className="card p-4 mb-4">
+          <h2 className="text-lg font-bold text-white mb-3">Turno de {currentPlayer.name}</h2>
           
-          {/* Player Stats */}
-          <div className="flex gap-8 mb-6">
-            <div className={`glass px-4 py-3 rounded-xl flex items-center gap-2 ${lifeAnim ? 'animate-pop' : ''}`}>
-              <span className="text-2xl">❤️</span>
-              <div className="text-left">
+          {/* Player Stats - Horizontal */}
+          <div className="flex justify-center gap-6 mb-3">
+            <div className={`glass px-3 py-2 rounded-lg flex items-center gap-2 ${lifeAnim ? 'animate-pop' : ''}`}>
+              <span className="text-xl">❤️</span>
+              <div className="text-center">
                 <div className="text-lg font-bold text-white">{currentPlayer.lives}</div>
                 <div className="text-xs text-gray-300">Vidas</div>
               </div>
             </div>
             
-            <div className={`glass px-4 py-3 rounded-xl flex items-center gap-2 ${jokerAnim ? 'animate-flash' : ''}`}>
-              <span className="text-2xl">🃏</span>
-              <div className="text-left">
+            <div className={`glass px-3 py-2 rounded-lg flex items-center gap-2 ${jokerAnim ? 'animate-flash' : ''}`}>
+              <span className="text-xl">🃏</span>
+              <div className="text-center">
                 <div className="text-lg font-bold text-white">{currentPlayer.jokers}</div>
                 <div className="text-xs text-gray-300">Comodines</div>
               </div>
             </div>
           </div>
+        </div>
           
-          {/* All Players Overview */}
-          <div className="w-full">
-            <h3 className="text-sm text-gray-400 mb-3">🎮 Estado general</h3>
-            <div className="grid grid-cols-2 gap-2">
-              {playersState.map((player, i) => (
-                <div key={player.name} className={`glass px-3 py-2 rounded-lg text-sm ${
-                  i === currentIndex ? 'border border-primary-500/50' : ''
-                } ${player.lives <= 0 ? 'opacity-50' : ''}`}>
-                  <div className="font-medium text-white">{player.name}</div>
-                  <div className="flex gap-2 text-xs text-gray-300">
-                    <span>❤️{player.lives}</span>
-                    <span>🃏{player.jokers}</span>
-                  </div>
+        {/* All Players Carousel - Horizontal scroll */}
+        <div className="mb-4">
+          <h3 className="text-sm text-gray-400 mb-2 text-center">🎮 Estado general</h3>
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide px-2 pb-2">
+            {playersState.map((player, i) => (
+              <div key={player.name} className={`glass px-3 py-2 rounded-lg text-sm min-w-[80px] flex-shrink-0 ${
+                i === currentIndex ? 'border border-primary-500/50 bg-primary-500/10' : ''
+              } ${player.lives <= 0 ? 'opacity-50' : ''}`}>
+                <div className="font-medium text-white text-center text-xs truncate">{player.name}</div>
+                <div className="flex justify-center gap-1 text-xs text-gray-300 mt-1">
+                  <span>❤️{player.lives}</span>
+                  <span>🃏{player.jokers}</span>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

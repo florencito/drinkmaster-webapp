@@ -31,76 +31,92 @@ const NombreJugadores = ({ onContinue }) => {
   }
 
   return (
-    <div className="p-6 text-center max-w-lg mx-auto flex flex-col items-center justify-center min-h-dvh animate-fade-zoom">
-      {/* Header */}
-      <div className="mb-12 animate-slide-up">
-        <h2 className="heading-primary text-3xl mb-4">Nombres de jugadores</h2>
-        <p className="text-gray-300 text-lg">
-          Agrega los nombres de los participantes ({MIN_JUGADORES}-{MAX_JUGADORES} jugadores)
+    <div className="p-4 text-center max-w-sm mx-auto flex flex-col items-center justify-between min-h-dvh animate-fade-zoom">
+      {/* Header - Compact */}
+      <div className="animate-slide-up">
+        <h2 className="text-2xl font-bold text-white mb-2">Jugadores</h2>
+        <p className="text-gray-300 text-sm">
+          Agrega los nombres ({MIN_JUGADORES}-{MAX_JUGADORES} jugadores)
         </p>
       </div>
 
-      {/* Players Input Card */}
-      <div className="card w-full p-8 mb-8 animate-slide-up stagger-delay-1">
-        <div className="space-y-4">
+      {/* Players Input Card - Compact with scroll */}
+      <div className="card w-full p-4 animate-slide-up stagger-delay-1">
+        {/* Player Inputs - Scrollable */}
+        <div className="space-y-3 max-h-64 overflow-y-auto scrollbar-hide pr-1">
           {nombres.map((nombre, i) => (
-            <div key={i} className="flex items-center gap-3 animate-slide-up" style={{animationDelay: `${(i + 2) * 100}ms`}}>
+            <div key={i} className="flex items-center gap-2 animate-slide-up" style={{animationDelay: `${(i + 2) * 100}ms`}}>
               <div className="relative flex-1">
                 <input
-                  className="w-full px-6 py-4 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-4 focus:ring-primary-500/30 focus:bg-white/20 transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-gray-300 text-center focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:bg-white/20 transition-all duration-200"
                   placeholder={`Jugador ${i + 1}`}
                   value={nombre}
                   onChange={(e) => handleChange(i, e.target.value)}
                 />
                 {nombre.trim() && (
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-green-400">
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-green-400 text-sm">
                     ✓
                   </div>
                 )}
               </div>
               {nombres.length > MIN_JUGADORES && (
                 <button
-                  className="flex items-center justify-center w-12 h-12 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500/30 hover:text-red-300 transition-all duration-200 focus-ring"
+                  className="flex items-center justify-center w-10 h-10 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500/30 hover:text-red-300 transition-all duration-200 focus-ring"
                   onClick={() => removerJugador(i)}
                   title={`Eliminar jugador ${i + 1}`}
                 >
-                  ✕
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
               )}
             </div>
           ))}
         </div>
         
-        {/* Add Player Button */}
+        {/* Add Player Button - Compact */}
         <button
-          className="mt-8 w-full btn-secondary focus-ring disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+          className="mt-4 w-full btn-secondary py-3 focus-ring disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           onClick={agregarJugador}
           disabled={nombres.length >= MAX_JUGADORES}
         >
-          <span className="text-xl">➕</span>
-          <span>Añadir jugador ({nombres.length}/{MAX_JUGADORES})</span>
+          <span className="text-lg">➕</span>
+          <span className="text-sm">Añadir ({nombres.length}/{MAX_JUGADORES})</span>
         </button>
       </div>
 
-      {/* Continue Button */}
-      <button
-        className="btn-primary w-full max-w-sm text-lg py-4 focus-ring disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 animate-slide-up stagger-delay-4"
-        onClick={continuar}
-        disabled={!tieneMinimo}
-      >
-        <span className="text-xl">🚀</span>
-        <span>¡Comenzar partida!</span>
-      </button>
-
-      {/* Status Info */}
-      <div className="mt-6 text-center animate-slide-up stagger-delay-4">
-        <p className="text-sm text-gray-400">
-          {tieneMinimo ? (
-            <span className="text-green-400">✓ Listo para comenzar</span>
-          ) : (
-            <span>Necesitas al menos {MIN_JUGADORES} jugadores para continuar</span>
-          )}
-        </p>
+      {/* Action Section */}
+      <div className="w-full space-y-3">
+        {/* Status Info - Compact */}
+        <div className="text-center">
+          <p className="text-sm text-gray-400">
+            {tieneMinimo ? (
+              <span className="text-green-400 flex items-center justify-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Listo para comenzar
+              </span>
+            ) : (
+              <span className="flex items-center justify-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.502 0L5.232 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+                Necesitas mínimo {MIN_JUGADORES} jugadores
+              </span>
+            )}
+          </p>
+        </div>
+        
+        {/* Continue Button */}
+        <button
+          className="btn-primary w-full text-lg py-4 focus-ring disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 animate-slide-up stagger-delay-4"
+          onClick={continuar}
+          disabled={!tieneMinimo}
+        >
+          <span className="text-xl">🚀</span>
+          <span>¡Comenzar!</span>
+        </button>
       </div>
     </div>
   )

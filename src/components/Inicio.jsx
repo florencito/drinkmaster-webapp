@@ -17,67 +17,67 @@ const Inicio = ({ onStart, mode = 'normal' }) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-dvh text-center px-6 animate-fade-zoom">
-      {/* Hero Section */}
-      <div className="mb-16 animate-slide-up">
-        <div className="relative">
-          <h1 className="heading-primary mb-4 animate-float">DrinkMaster</h1>
-          <div className="text-6xl mb-6 animate-glow">🍻</div>
-          <p className="heading-secondary max-w-md mx-auto">
-            ¡Prepárate para la diversión! Elige tu modo de juego y vive una experiencia única.
-          </p>
-        </div>
+    <div className="flex flex-col items-center justify-between min-h-dvh text-center px-4 py-6 animate-fade-zoom">
+      {/* Hero Section - Compact */}
+      <div className="animate-slide-up">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-100 to-gray-200 bg-clip-text text-transparent mb-2 animate-float">DrinkMaster</h1>
+        <div className="text-4xl mb-3 animate-glow">🍻</div>
+        <p className="text-gray-300 text-sm max-w-xs mx-auto">
+          ¡Elige tu modo y vive la diversión!
+        </p>
       </div>
 
-      {/* Game Mode Cards */}
-      <div className="grid gap-6 w-full max-w-md">
-        <div className="card card-hover p-6 animate-slide-up stagger-delay-1">
-          <button
-            className={`btn-game w-full ${styles[startType]} focus-ring`}
-            onClick={onStart}
-          >
-            <span className="text-2xl mr-3">{icons[startType]}</span>
-            <span className="font-semibold">{startLabel}</span>
-          </button>
-        </div>
-
-        {mode === 'normal' && (
-          <div className="card card-hover p-6 animate-slide-up stagger-delay-2">
+      {/* Game Mode Cards - Grid 2x2 for mobile */}
+      <div className="w-full max-w-sm">
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="card card-hover p-3 animate-slide-up stagger-delay-1">
             <button
-              className={`btn-game w-full ${styles.hardcore} focus-ring`}
-              onClick={() => (window.location.href = '/hardcore')}
+              className={`btn-game w-full ${styles[startType]} focus-ring py-4 flex flex-col items-center gap-2`}
+              onClick={onStart}
             >
-              <span className="text-2xl mr-3">{icons.hardcore}</span>
-              <span className="font-semibold">Modo Hardcore</span>
+              <span className="text-2xl">{icons[startType]}</span>
+              <span className="text-xs font-medium">{startLabel}</span>
             </button>
           </div>
-        )}
 
-        <div className="card card-hover p-6 animate-slide-up stagger-delay-3">
-          <button
-            className={`btn-game w-full ${styles.survival} focus-ring`}
-            onClick={() => (window.location.href = '/supervivencia')}
-          >
-            <span className="text-2xl mr-3">{icons.survival}</span>
-            <span className="font-semibold">Modo Supervivencia</span>
-          </button>
-        </div>
+          {mode === 'normal' && (
+            <div className="card card-hover p-3 animate-slide-up stagger-delay-2">
+              <button
+                className={`btn-game w-full ${styles.hardcore} focus-ring py-4 flex flex-col items-center gap-2`}
+                onClick={() => (window.location.href = '/hardcore')}
+              >
+                <span className="text-2xl">{icons.hardcore}</span>
+                <span className="text-xs font-medium">Hardcore</span>
+              </button>
+            </div>
+          )}
 
-        <div className="card card-hover p-6 animate-slide-up stagger-delay-4">
-          <button
-            className={`btn-game w-full ${styles.info} focus-ring`}
-            onClick={() => (window.location.href = '/como-jugar')}
-          >
-            <span className="text-2xl mr-3">{icons.info}</span>
-            <span className="font-semibold">¿Cómo jugar?</span>
-          </button>
+          <div className="card card-hover p-3 animate-slide-up stagger-delay-3">
+            <button
+              className={`btn-game w-full ${styles.survival} focus-ring py-4 flex flex-col items-center gap-2`}
+              onClick={() => (window.location.href = '/supervivencia')}
+            >
+              <span className="text-2xl">{icons.survival}</span>
+              <span className="text-xs font-medium">Supervivencia</span>
+            </button>
+          </div>
+
+          <div className="card card-hover p-3 animate-slide-up stagger-delay-4">
+            <button
+              className={`btn-game w-full ${styles.info} focus-ring py-4 flex flex-col items-center gap-2`}
+              onClick={() => (window.location.href = '/como-jugar')}
+            >
+              <span className="text-2xl">{icons.info}</span>
+              <span className="text-xs font-medium">¿Cómo jugar?</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Footer Info */}
-      <div className="mt-16 animate-slide-up stagger-delay-4">
-        <p className="text-gray-300 text-sm max-w-xs mx-auto opacity-80">
-          ¡Juega responsablemente y diviértete con amigos!
+      {/* Footer Info - Compact */}
+      <div className="animate-slide-up stagger-delay-4">
+        <p className="text-gray-400 text-xs max-w-xs mx-auto opacity-80">
+          ¡Juega responsablemente y diviértete!
         </p>
       </div>
     </div>

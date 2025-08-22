@@ -67,107 +67,100 @@ const SurvivalResults = ({ ranking = [] }) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-dvh text-center px-6 animate-fade-zoom">
-      {/* Hero Section */}
-      <div className="mb-16 animate-slide-up">
-        <div className="relative">
-          {/* Floating celebration emojis */}
-          <div className="absolute -top-10 -left-10 text-4xl animate-float" style={{animationDelay: '0s'}}>🎉</div>
-          <div className="absolute -top-16 -right-8 text-3xl animate-float" style={{animationDelay: '0.5s'}}>🏆</div>
-          <div className="absolute -top-6 left-16 text-2xl animate-float" style={{animationDelay: '1s'}}>✨</div>
-          <div className="absolute -top-12 right-20 text-3xl animate-float" style={{animationDelay: '1.5s'}}>🛡️</div>
-          
-          <h1 className="heading-primary mb-6 animate-glow">
-            Supervivencia Completada
-          </h1>
-          
-          <div className="text-6xl mb-8 animate-bounce-subtle">🏆</div>
-          
-          <p className="heading-secondary max-w-md mx-auto mb-8">
-            El desafío ha terminado. ¡Estos son los valientes supervivientes!
-          </p>
-        </div>
+    <div className="flex flex-col items-center justify-between min-h-dvh text-center px-4 py-6 animate-fade-zoom">
+      {/* Hero Section - Compact */}
+      <div className="animate-slide-up">
+        <h1 className="text-2xl font-bold text-white mb-2 animate-glow">
+          ¡Supervivencia Completada!
+        </h1>
+        <div className="text-4xl mb-3 animate-bounce-subtle">🏆</div>
+        <p className="text-gray-300 text-sm max-w-xs mx-auto">
+          El desafío ha terminado
+        </p>
       </div>
 
-      {/* Podium Card */}
-      <div className="card card-hover p-8 w-full max-w-lg mb-8 animate-slide-up stagger-delay-1">
-        <h3 className="text-xl font-semibold text-white mb-6">🏅 Clasificación Final</h3>
-        <div className="space-y-4">
-          {ranking.map((name, idx) => {
-            const position = idx + 1
-            const isWinner = idx === 0
-            const isPodium = idx < 3
-            
-            return (
-              <div
-                key={name}
-                className={`glass rounded-xl p-4 flex items-center justify-between animate-slide-up ${
-                  isWinner ? 'border border-yellow-500/30 bg-yellow-500/10' : ''
-                } ${isPodium && !isWinner ? 'border border-white/20' : ''}`}
-                style={{ animationDelay: `${(idx + 2) * 100}ms` }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`text-2xl ${
-                    isWinner ? 'animate-bounce-subtle' : ''
-                  }`}>
-                    {idx === 0 && '🌟'}
-                    {idx === 1 && '🥈'}
-                    {idx === 2 && '🥉'}
-                    {idx > 2 && `${position}.`}
-                  </div>
-                  <div className="text-left">
-                    <div className={`font-semibold ${
-                      isWinner ? 'text-yellow-300 text-lg' : 'text-white'
-                    }`}>
-                      {name}
+      {/* Podium Card - Compact with Scroll */}
+      <div className="card p-4 w-full max-w-sm animate-slide-up stagger-delay-1">
+        <h3 className="text-lg font-semibold text-white mb-4">🏅 Clasificación Final</h3>
+        
+        {/* Winner Spotlight */}
+        {ranking[0] && (
+          <div className="glass rounded-xl p-3 mb-4 border border-yellow-500/30 bg-yellow-500/10">
+            <div className="flex items-center justify-center gap-2">
+              <div className="text-2xl animate-bounce-subtle">🌟</div>
+              <div>
+                <div className="text-yellow-300 font-bold text-lg">{ranking[0]}</div>
+                <div className="text-xs text-yellow-400">Campeón 🏆</div>
+              </div>
+              <div className="text-yellow-400 animate-glow">🏆</div>
+            </div>
+          </div>
+        )}
+        
+        {/* Rest of Rankings - Horizontal Scroll */}
+        {ranking.length > 1 && (
+          <div className="space-y-2 max-h-32 overflow-y-auto scrollbar-hide">
+            {ranking.slice(1).map((name, idx) => {
+              const position = idx + 2
+              const actualIdx = idx + 1
+              
+              return (
+                <div
+                  key={name}
+                  className={`glass rounded-lg p-2 flex items-center justify-between animate-slide-up ${
+                    actualIdx < 3 ? 'border border-white/20' : ''
+                  }`}
+                  style={{ animationDelay: `${(actualIdx + 2) * 100}ms` }}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="text-lg">
+                      {actualIdx === 1 && '🥈'}
+                      {actualIdx === 2 && '🥉'}
+                      {actualIdx > 2 && `${position}.`}
                     </div>
-                    <div className="text-xs text-gray-400">
-                      {idx === 0 && 'Campeón 🏆'}
-                      {idx === 1 && 'Subcampeón'}
-                      {idx === 2 && 'Tercer lugar'}
-                      {idx > 2 && `${position}º lugar`}
+                    <div className="text-left">
+                      <div className="font-semibold text-white text-sm">
+                        {name}
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        {actualIdx === 1 && 'Subcampeón'}
+                        {actualIdx === 2 && 'Tercer lugar'}
+                        {actualIdx > 2 && `${position}º lugar`}
+                      </div>
                     </div>
                   </div>
                 </div>
-                
-                {isWinner && (
-                  <div className="text-yellow-400 animate-glow">
-                    🏆
-                  </div>
-                )}
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        )}
       </div>
 
-      {/* Action Buttons */}
-      <div className="space-y-4 w-full max-w-sm">
+      {/* Action Buttons - Compact */}
+      <div className="w-full max-w-sm space-y-3">
         <button
-          className="btn-primary w-full text-lg py-4 focus-ring flex items-center justify-center gap-3 animate-slide-up stagger-delay-2"
+          className="btn-primary w-full py-4 focus-ring flex items-center justify-center gap-3 animate-slide-up stagger-delay-2"
           onClick={handleClick}
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
-          <span>Regresar al inicio</span>
+          <span>Inicio</span>
         </button>
         
         <button
           className="btn-secondary w-full py-3 focus-ring flex items-center justify-center gap-3 animate-slide-up stagger-delay-3"
           onClick={() => window.location.href = '/supervivencia'}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
-          <span>Jugar otra ronda</span>
+          <span>Otra ronda</span>
         </button>
-      </div>
-
-      {/* Footer Message */}
-      <div className="mt-16 animate-slide-up stagger-delay-4">
-        <p className="text-gray-400 text-sm max-w-xs mx-auto opacity-80">
-          ¡Gracias por jugar el modo supervivencia! 🛡️
+        
+        {/* Footer Message - Very compact */}
+        <p className="text-gray-400 text-xs opacity-80 animate-slide-up stagger-delay-4 mt-2">
+          ¡Gracias por jugar! 🛡️
         </p>
       </div>
     </div>
