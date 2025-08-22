@@ -162,7 +162,7 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
 
   return (
     <div
-      className={`p-6 flex flex-col items-center justify-center text-center min-h-dvh relative ${
+      className={`p-4 flex flex-col items-center ${stage === 'question' ? 'justify-between' : 'justify-center'} text-center min-h-dvh relative ${
         feedback === 'correct' ? 'animate-flash bg-green-500/20' : ''
       } ${feedback === 'wrong' ? 'animate-shake bg-red-500/20' : ''}`}
     >
@@ -246,48 +246,48 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
         </div>
       )}
 
-      {/* Question Card */}
+      {/* Question Card - Optimized for mobile */}
       {stage === 'question' && question && (
-        <div className="w-full max-w-lg flex flex-col items-center animate-fade-in-up">
-          <div className="card card-hover p-8 mb-8 relative overflow-hidden">
+        <div className="w-full max-w-sm flex flex-col flex-1 justify-between animate-fade-in-up">
+          <div className="card p-4 mb-4 relative overflow-hidden">
             {/* Question Background Gradient */}
             <div className={`absolute inset-0 bg-gradient-to-br ${fondos[(questionCount >= 0 ? questionCount : 0) % fondos.length]} opacity-20 rounded-2xl`} />
             
             {/* Question Content */}
             <div className="relative z-10">
-              <div className="flex items-center justify-between mb-4">
-                <span className="glass px-3 py-1 rounded-full text-sm text-white/80">
-                  Pregunta #{totalQuestions}
+              <div className="flex items-center justify-between mb-3">
+                <span className="glass px-2 py-1 rounded-full text-xs text-white/80">
+                  #{totalQuestions}
                 </span>
-                <span className="glass px-3 py-1 rounded-full text-sm text-white/80">
+                <span className="glass px-2 py-1 rounded-full text-xs text-white/80 truncate max-w-[120px]">
                   {currentPlayer.lastCategory}
                 </span>
               </div>
               
-              <h3 className="text-xl md:text-2xl font-semibold text-white leading-relaxed break-words mb-6">
+              <h3 className="text-lg font-semibold text-white leading-relaxed break-words mb-4">
                 {question.question}
               </h3>
               
-              {/* Options (when using joker) */}
+              {/* Options (when using joker) - Compact */}
               {showOptions && (
-                <div className="mt-4 grid gap-3 animate-slide-up">
+                <div className="mt-3 space-y-2 animate-slide-up max-h-32 overflow-y-auto scrollbar-hide">
                   {question.options.map((opt, i) => (
-                    <div key={i} className="glass px-4 py-3 rounded-xl text-white text-left">
+                    <div key={i} className="glass px-3 py-2 rounded-lg text-white text-left text-sm">
                       <span className="font-medium text-primary-400 mr-2">{String.fromCharCode(65 + i)}.</span>
-                      {opt}
+                      <span className="text-xs">{opt}</span>
                     </div>
                   ))}
                 </div>
               )}
               
-              {/* Answer (when revealed) */}
+              {/* Answer (when revealed) - Compact and scrollable */}
               {revealed && (
-                <div className="mt-6 glass p-4 rounded-xl animate-slide-up">
-                  <p className="font-semibold text-green-400 mb-2">
-                    ✅ Respuesta correcta: {question.answer}
+                <div className="mt-3 glass p-3 rounded-xl animate-slide-up max-h-40 overflow-y-auto scrollbar-hide">
+                  <p className="font-semibold text-green-400 mb-2 text-sm">
+                    ✅ {question.answer}
                   </p>
                   {question.explanation && (
-                    <p className="text-sm text-gray-300 italic">
+                    <p className="text-xs text-gray-300 italic leading-relaxed">
                       💡 {question.explanation}
                     </p>
                   )}
@@ -296,51 +296,51 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="w-full flex flex-col gap-4">
+          {/* Action Buttons - Always visible at bottom */}
+          <div className="space-y-3">
             {!showOptions && !revealed && currentPlayer.jokers > 0 && (
               <button
-                className="btn-secondary flex items-center justify-center gap-3 py-3 focus-ring animate-slide-up"
+                className="btn-secondary w-full py-3 focus-ring animate-slide-up flex items-center justify-center gap-2"
                 onClick={useJoker}
               >
-                <span className="text-xl">🃏</span>
-                <span>Usar comodín ({currentPlayer.jokers} restantes)</span>
+                <span className="text-lg">🃏</span>
+                <span className="text-sm">Usar comodín ({currentPlayer.jokers})</span>
               </button>
             )}
             
             {!revealed && (
               <button
-                className="btn-primary flex items-center justify-center gap-3 py-4 focus-ring animate-slide-up"
+                className="btn-primary w-full py-4 focus-ring animate-slide-up flex items-center justify-center gap-2"
                 onClick={() => setRevealed(true)}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
-                <span>Mostrar respuesta</span>
+                <span>Ver respuesta</span>
               </button>
             )}
+            
+            {/* Result Buttons - Always at bottom */}
+            {revealed && (
+              <div className="grid grid-cols-2 gap-3 animate-slide-up">
+                <button
+                  className="btn-game bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-green-500/25 hover:shadow-green-500/40 focus:ring-green-500/30 py-4 flex items-center justify-center gap-2"
+                  onClick={() => handleResult(true)}
+                >
+                  <span className="text-lg">✅</span>
+                  <span className="text-sm font-medium">Acertó</span>
+                </button>
+                <button
+                  className="btn-game bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 shadow-red-500/25 hover:shadow-red-500/40 focus:ring-red-500/30 py-4 flex items-center justify-center gap-2"
+                  onClick={() => handleResult(false)}
+                >
+                  <span className="text-lg">❌</span>
+                  <span className="text-sm font-medium">Falló</span>
+                </button>
+              </div>
+            )}
           </div>
-          
-          {/* Result Buttons */}
-          {revealed && (
-            <div className="w-full grid grid-cols-2 gap-4 mt-4 animate-slide-up">
-              <button
-                className="btn-game bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-green-500/25 hover:shadow-green-500/40 focus:ring-green-500/30 py-3 flex items-center justify-center gap-2"
-                onClick={() => handleResult(true)}
-              >
-                <span className="text-xl">✅</span>
-                <span>Acertó</span>
-              </button>
-              <button
-                className="btn-game bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 shadow-red-500/25 hover:shadow-red-500/40 focus:ring-red-500/30 py-3 flex items-center justify-center gap-2"
-                onClick={() => handleResult(false)}
-              >
-                <span className="text-xl">❌</span>
-                <span>Falló</span>
-              </button>
-            </div>
-          )}
         </div>
       )}
     </div>
