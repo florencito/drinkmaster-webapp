@@ -97,16 +97,37 @@ const ComoJugar = () => {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-fuchsia-900 via-purple-900 to-indigo-900 text-white flex flex-col p-4">
-      <div className="flex-1 overflow-y-auto w-full max-w-3xl mx-auto bg-black bg-opacity-20 p-6 rounded-lg text-left">
-        {renderMarkdown(howToPlay)}
+    <div className="min-h-screen bg-gradient-to-br from-fuchsia-900 via-purple-900 to-indigo-900 text-white flex flex-col p-6">
+      {/* Header */}
+      <div className="mb-8 text-center animate-slide-up">
+        <div className="text-6xl mb-4 animate-bounce-subtle">❓</div>
+        <h1 className="heading-primary text-3xl mb-4">¿Cómo jugar?</h1>
+        <p className="text-gray-300 text-lg">
+          Todo lo que necesitas saber para disfrutar DrinkMaster
+        </p>
       </div>
-      <button
-        className="mt-4 bg-blue-500 hover:bg-blue-600 active:scale-95 text-white px-6 py-3 rounded-full shadow-md transition w-full max-w-xs self-center"
-        onClick={() => (window.location.href = '/')}
-      >
-        Regresar al inicio
-      </button>
+
+      {/* Content Card */}
+      <div className="flex-1 overflow-y-auto w-full max-w-4xl mx-auto animate-slide-up stagger-delay-1">
+        <div className="card p-8 text-left">
+          <div className="prose prose-invert max-w-none">
+            {renderMarkdown(howToPlay)}
+          </div>
+        </div>
+      </div>
+      
+      {/* Action Button */}
+      <div className="mt-8 text-center animate-slide-up stagger-delay-2">
+        <button
+          className="btn-primary px-8 py-4 focus-ring flex items-center justify-center gap-3 mx-auto"
+          onClick={() => (window.location.href = '/')}
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span>Regresar al inicio</span>
+        </button>
+      </div>
     </div>
   )
 }
