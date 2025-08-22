@@ -3,10 +3,12 @@ import useActiveCards from '../hooks/useActiveCards'
 import replacePlaceholders from '../utils/replacePlaceholders'
 
 const fondos = [
-  'bg-gradient-to-br from-pink-500 to-fuchsia-600',
-  'bg-gradient-to-br from-emerald-500 to-lime-500',
-  'bg-gradient-to-br from-sky-500 to-indigo-500',
-  'bg-gradient-to-br from-amber-500 to-orange-600',
+  'from-pink-500 to-fuchsia-600',
+  'from-emerald-500 to-lime-500',
+  'from-sky-500 to-indigo-500',
+  'from-amber-500 to-orange-600',
+  'from-purple-500 to-indigo-600',
+  'from-red-500 to-pink-600',
 ]
 
 const MAX_CARTAS = 25
@@ -26,6 +28,7 @@ const Juego = ({ jugadores, onFin, mode = 'normal' }) => {
   const [mazo, setMazo] = useState([])
   const [indice, setIndice] = useState(0)
   const [textoCarta, setTextoCarta] = useState('')
+  const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
     if (!loading) {
@@ -45,20 +48,30 @@ const Juego = ({ jugadores, onFin, mode = 'normal' }) => {
   }, [mazo, indice, jugadores])
 
   const siguienteCarta = () => {
-    if (indice < mazo.length - 1) {
-      setIndice(indice + 1)
-    } else {
-      onFin()
-    }
+    if (isAnimating) return
+    
+    setIsAnimating(true)
+    setTimeout(() => {
+      if (indice < mazo.length - 1) {
+        setIndice(indice + 1)
+      } else {
+        onFin()
+      }
+      setIsAnimating(false)
+    }, 150)
   }
-
 
   // Show loading state
   if (loading) {
     return (
-      <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh animate-fade-zoom">
-        <div className="bg-gray-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
-          <h2 className="text-lg font-medium">Cargando cartas...</h2>
+      <div className="p-6 flex flex-col justify-center items-center text-center min-h-dvh animate-fade-zoom">
+        <div className="card p-8 w-full max-w-lg animate-slide-up">
+          <div className="flex items-center justify-center mb-6">
+            <div className="w-8 h-8 border-4 border-primary-200 border-t-primary-500 rounded-full animate-spin"></div>
+          </div>
+          <h2 className="text-xl font-medium text-white mb-4">Cargando cartas...</h2>
+          <div className="shimmer h-4 bg-white/10 rounded-lg mb-2"></div>
+          <div className="shimmer h-4 bg-white/10 rounded-lg w-3/4 mx-auto"></div>
         </div>
       </div>
     )
@@ -67,10 +80,11 @@ const Juego = ({ jugadores, onFin, mode = 'normal' }) => {
   // Show error state
   if (error) {
     return (
-      <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh animate-fade-zoom">
-        <div className="bg-red-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
-          <h2 className="text-lg font-medium">Error al cargar las cartas</h2>
-          <p className="text-sm mt-2">{error.message}</p>
+      <div className="p-6 flex flex-col justify-center items-center text-center min-h-dvh animate-fade-zoom">
+        <div className="card p-8 w-full max-w-lg border-red-500/20 animate-slide-up">
+          <div className="text-6xl mb-6 animate-bounce">⚠️</div>
+          <h2 className="text-xl font-medium text-red-400 mb-4">Error al cargar las cartas</h2>
+          <p className="text-gray-300">{error.message}</p>
         </div>
       </div>
     )
@@ -79,34 +93,96 @@ const Juego = ({ jugadores, onFin, mode = 'normal' }) => {
   // Show empty state
   if (mazo.length === 0) {
     return (
-      <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh animate-fade-zoom">
-        <div className="bg-yellow-500 w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6">
-          <h2 className="text-lg font-medium">No hay cartas disponibles</h2>
-          <p className="text-sm mt-2">Necesitas agregar cartas a la base de datos</p>
+      <div className="p-6 flex flex-col justify-center items-center text-center min-h-dvh animate-fade-zoom">
+        <div className="card p-8 w-full max-w-lg border-yellow-500/20 animate-slide-up">
+          <div className="text-6xl mb-6 animate-bounce-subtle">🎴</div>
+          <h2 className="text-xl font-medium text-yellow-400 mb-4">No hay cartas disponibles</h2>
+          <p className="text-gray-300">Necesitas agregar cartas a la base de datos</p>
         </div>
       </div>
     )
   }
 
+  const progreso = ((indice + 1) / mazo.length) * 100
+
   return (
-    <div className="p-4 flex flex-col justify-center items-center text-center min-h-dvh relative animate-fade-zoom">
-      <div className="absolute top-2 left-2 text-xs bg-black/40 px-2 py-1 rounded">
+    <div className="p-6 flex flex-col justify-center items-center text-center min-h-dvh relative animate-fade-zoom">
+      {/* Mode Badge */}
+      <div className="absolute top-6 left-6 glass px-4 py-2 rounded-xl text-sm font-medium text-white/90">
         {modeLabel}
       </div>
+      
+      {/* Progress Badge */}
+      <div className="absolute top-6 right-6 glass px-4 py-2 rounded-xl text-sm font-medium text-white/90">
+        {indice + 1} / {mazo.length}
+      </div>
+
+      {/* Progress Bar */}
+      <div className="w-full max-w-lg mb-8">
+        <div className="glass rounded-full h-3 overflow-hidden">
+          <div 
+            className="bg-gradient-to-r from-primary-400 to-primary-600 h-full rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${progreso}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Card */}
       <div
         key={indice}
-        className={`w-full max-w-md text-white rounded-xl shadow-xl p-6 mb-6 transition-colors duration-300 animate-fade-in-up ${
-          fondos[indice % fondos.length]
-        }`}
+        className={`card card-hover w-full max-w-lg p-8 mb-8 relative overflow-hidden transition-all duration-300 ${isAnimating ? 'animate-pop' : 'animate-fade-in-up'}`}
       >
-        <h2 className="text-lg font-medium break-words">{textoCarta}</h2>
+        {/* Card Background Gradient */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${fondos[indice % fondos.length]} opacity-20 rounded-2xl`} />
+        
+        {/* Card Content */}
+        <div className="relative z-10">
+          <h2 className="text-xl md:text-2xl font-semibold text-white leading-relaxed break-words">
+            {textoCarta}
+          </h2>
+        </div>
+        
+        {/* Card Number */}
+        <div className="absolute bottom-4 right-6 text-white/40 font-mono text-sm">
+          #{String(indice + 1).padStart(2, '0')}
+        </div>
       </div>
+
+      {/* Action Button */}
       <button
-        className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full shadow-md"
+        className="btn-primary text-lg px-8 py-4 focus-ring flex items-center gap-3 animate-glow disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={siguienteCarta}
+        disabled={isAnimating}
       >
-        Siguiente
+        {indice < mazo.length - 1 ? (
+          <>
+            <span>Siguiente</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </>
+        ) : (
+          <>
+            <span>Finalizar</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </>
+        )}
       </button>
+
+      {/* Players List */}
+      <div className="mt-8 flex flex-wrap justify-center gap-2 max-w-lg">
+        {jugadores.map((jugador, i) => (
+          <span 
+            key={i} 
+            className="glass px-3 py-1 rounded-full text-sm text-white/80 animate-slide-up"
+            style={{animationDelay: `${i * 50}ms`}}
+          >
+            {jugador}
+          </span>
+        ))}
+      </div>
     </div>
   )
 }
