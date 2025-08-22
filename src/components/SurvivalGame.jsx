@@ -162,18 +162,18 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
 
   return (
     <div
-      className={`p-4 flex flex-col items-center ${stage === 'question' ? 'justify-between' : 'justify-center'} text-center min-h-dvh relative ${
+      className={`p-6 pb-24 flex flex-col items-center ${stage === 'question' ? 'justify-between' : 'justify-center'} text-center min-h-dvh relative ${
         feedback === 'correct' ? 'animate-flash bg-green-500/20' : ''
       } ${feedback === 'wrong' ? 'animate-shake bg-red-500/20' : ''}`}
     >
-      {/* Survival Mode Badge */}
-      <div className="absolute top-6 left-6 glass px-4 py-2 rounded-xl text-sm font-medium text-white/90">
-        🛡️ Supervivencia
-      </div>
-      
-      {/* Remaining Players Badge */}
-      <div className="absolute top-6 right-6 glass px-4 py-2 rounded-xl text-sm font-medium text-white/90">
-        {remainingPlayers} jugadores restantes
+      {/* Header with badges */}
+      <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-10">
+        <div className="glass px-4 py-2 rounded-xl text-sm font-medium text-white/90">
+          🛡️ Supervivencia
+        </div>
+        <div className="glass px-4 py-2 rounded-xl text-sm font-medium text-white/90">
+          {remainingPlayers} jugadores
+        </div>
       </div>
 
       {/* Player Status Card - Compact */}

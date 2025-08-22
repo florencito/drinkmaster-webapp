@@ -14,7 +14,7 @@ const SurvivalConfig = ({ onStart }) => {
   }
 
   return (
-    <div className="p-4 text-center max-w-sm mx-auto flex flex-col items-center justify-between min-h-dvh animate-fade-zoom">
+    <div className="p-6 pb-24 text-center max-w-sm mx-auto flex flex-col items-center justify-between min-h-dvh animate-fade-zoom">
       {/* Header - Compact */}
       <div className="animate-slide-up">
         <div className="text-4xl mb-2 animate-float">🛡️</div>

@@ -19,7 +19,7 @@ const SurvivalResults = ({ ranking = [] }) => {
 
   if (stage === 1 && ranking[2]) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-dvh text-center px-6">
+      <div className="flex flex-col items-center justify-center min-h-dvh text-center px-6 pb-24">
         <div className="card p-8 animate-slide-up">
           <div className="text-6xl mb-4 animate-bounce-subtle">🥉</div>
           <p className="text-2xl font-semibold text-white">
@@ -33,7 +33,7 @@ const SurvivalResults = ({ ranking = [] }) => {
 
   if (stage === 2 && ranking[1]) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-dvh text-center px-6">
+      <div className="flex flex-col items-center justify-center min-h-dvh text-center px-6 pb-24">
         <div className="card p-8 animate-slide-up">
           <div className="text-6xl mb-4 animate-bounce-subtle">🥈</div>
           <p className="text-2xl font-semibold text-white">
@@ -47,7 +47,7 @@ const SurvivalResults = ({ ranking = [] }) => {
 
   if (stage === 3 && ranking[0]) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-dvh text-center px-6">
+      <div className="flex flex-col items-center justify-center min-h-dvh text-center px-6 pb-24">
         <div className="card p-12 animate-slide-up border-yellow-500/30">
           <div className="text-8xl mb-6 animate-glow">🏆</div>
           <h2 className="heading-primary text-3xl mb-4 text-yellow-300">
@@ -67,7 +67,7 @@ const SurvivalResults = ({ ranking = [] }) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-between min-h-dvh text-center px-4 py-6 animate-fade-zoom">
+    <div className="flex flex-col items-center justify-between min-h-dvh text-center px-6 py-6 pb-24 animate-fade-zoom">
       {/* Hero Section - Compact */}
       <div className="animate-slide-up">
         <h1 className="text-2xl font-bold text-white mb-2 animate-glow">

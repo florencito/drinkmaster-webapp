@@ -106,19 +106,19 @@ const Juego = ({ jugadores, onFin, mode = 'normal' }) => {
   const progreso = ((indice + 1) / mazo.length) * 100
 
   return (
-    <div className="p-6 flex flex-col justify-center items-center text-center min-h-dvh relative animate-fade-zoom">
-      {/* Mode Badge */}
-      <div className="absolute top-6 left-6 glass px-4 py-2 rounded-xl text-sm font-medium text-white/90">
-        {modeLabel}
-      </div>
-      
-      {/* Progress Badge */}
-      <div className="absolute top-6 right-6 glass px-4 py-2 rounded-xl text-sm font-medium text-white/90">
-        {indice + 1} / {mazo.length}
+    <div className="p-6 pb-24 flex flex-col justify-center items-center text-center min-h-dvh relative animate-fade-zoom">
+      {/* Header with badges */}
+      <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start z-10">
+        <div className="glass px-4 py-2 rounded-xl text-sm font-medium text-white/90">
+          {modeLabel}
+        </div>
+        <div className="glass px-4 py-2 rounded-xl text-sm font-medium text-white/90">
+          {indice + 1} / {mazo.length}
+        </div>
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full max-w-lg mb-8">
+      <div className="w-full max-w-lg mb-8 mt-20">
         <div className="glass rounded-full h-3 overflow-hidden">
           <div 
             className="bg-gradient-to-r from-primary-400 to-primary-600 h-full rounded-full transition-all duration-500 ease-out"

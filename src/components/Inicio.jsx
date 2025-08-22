@@ -38,11 +38,11 @@ const Inicio = ({ onStart, mode = 'normal' }) => {
     : [gameMode[startType], gameMode.survival, gameMode.info]
 
   return (
-    <div className="flex flex-col items-center justify-between min-h-dvh text-center px-4 py-8 animate-fade-zoom">
+    <div className="flex flex-col items-center justify-between min-h-dvh text-center px-6 py-8 pb-24 animate-fade-zoom">
       {/* Hero Section - Elegant */}
       <div className="animate-slide-up space-y-4">
         {/* Modern 3D Title Design */}
-        <div className="relative mb-4 perspective-1000">
+        <div className="relative mb-6 perspective-1000">
           {/* Background decorative elements */}
           <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-cyan-500/20 blur-2xl opacity-30 rounded-full animate-pulse"></div>
           

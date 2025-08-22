@@ -97,9 +97,9 @@ const ComoJugar = () => {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-fuchsia-900 via-purple-900 to-indigo-900 text-white flex flex-col p-6">
+    <div className="min-h-screen bg-gradient-to-br from-fuchsia-900 via-purple-900 to-indigo-900 text-white flex flex-col p-6 pb-24">
       {/* Header */}
-      <div className="mb-8 text-center animate-slide-up">
+      <div className="mb-8 text-center animate-slide-up safe-area-top">
         <div className="text-6xl mb-4 animate-bounce-subtle">❓</div>
         <h1 className="heading-primary text-3xl mb-4">¿Cómo jugar?</h1>
         <p className="text-gray-300 text-lg">

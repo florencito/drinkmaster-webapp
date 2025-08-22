@@ -191,4 +191,27 @@ body,
       transform: translateY(-4px);
     }
   }
+
+  /* Safe area utilities for floating elements */
+  .safe-area-bottom {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+  
+  .safe-area-top {
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+  }
+
+  /* Enhanced glassmorphism for floating elements */
+  .glass-enhanced {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+
+  /* Prevent layout shift animations */
+  .layout-stable {
+    contain: layout style;
+  }
 }
