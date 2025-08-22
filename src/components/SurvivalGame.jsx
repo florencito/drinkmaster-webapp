@@ -246,96 +246,104 @@ const SurvivalGame = ({ players, settings, onFinish }) => {
         </div>
       )}
 
-      {/* Question Card - Optimized for mobile */}
+      {/* Question Card - Ultra-optimized for mobile */}
       {stage === 'question' && question && (
-        <div className="w-full max-w-sm flex flex-col flex-1 justify-between animate-fade-in-up">
-          <div className="card p-4 mb-4 relative overflow-hidden">
-            {/* Question Background Gradient */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${fondos[(questionCount >= 0 ? questionCount : 0) % fondos.length]} opacity-20 rounded-2xl`} />
-            
-            {/* Question Content */}
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-3">
-                <span className="glass px-2 py-1 rounded-full text-xs text-white/80">
-                  #{totalQuestions}
-                </span>
-                <span className="glass px-2 py-1 rounded-full text-xs text-white/80 truncate max-w-[120px]">
-                  {currentPlayer.lastCategory}
-                </span>
-              </div>
+        <div className="w-full max-w-sm flex flex-col flex-1 justify-between animate-fade-in-up min-h-0">
+          {/* Scrollable Content Area */}
+          <div className="flex-1 overflow-y-auto scrollbar-hide min-h-0">
+            <div className="card p-3 relative overflow-hidden">
+              {/* Question Background Gradient */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${fondos[(questionCount >= 0 ? questionCount : 0) % fondos.length]} opacity-20 rounded-2xl`} />
               
-              <h3 className="text-lg font-semibold text-white leading-relaxed break-words mb-4">
-                {question.question}
-              </h3>
-              
-              {/* Options (when using joker) - Compact */}
-              {showOptions && (
-                <div className="mt-3 space-y-2 animate-slide-up max-h-32 overflow-y-auto scrollbar-hide">
-                  {question.options.map((opt, i) => (
-                    <div key={i} className="glass px-3 py-2 rounded-lg text-white text-left text-sm">
-                      <span className="font-medium text-primary-400 mr-2">{String.fromCharCode(65 + i)}.</span>
-                      <span className="text-xs">{opt}</span>
-                    </div>
-                  ))}
+              {/* Question Content */}
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="glass px-2 py-1 rounded-full text-xs text-white/80">
+                    #{totalQuestions}
+                  </span>
+                  <span className="glass px-2 py-1 rounded-full text-xs text-white/80 truncate max-w-[100px]">
+                    {currentPlayer.lastCategory}
+                  </span>
                 </div>
-              )}
-              
-              {/* Answer (when revealed) - Compact and scrollable */}
-              {revealed && (
-                <div className="mt-3 glass p-3 rounded-xl animate-slide-up max-h-40 overflow-y-auto scrollbar-hide">
-                  <p className="font-semibold text-green-400 mb-2 text-sm">
-                    ✅ {question.answer}
-                  </p>
-                  {question.explanation && (
-                    <p className="text-xs text-gray-300 italic leading-relaxed">
-                      💡 {question.explanation}
+                
+                <h3 className="text-base font-semibold text-white leading-tight break-words mb-3">
+                  {question.question}
+                </h3>
+                
+                {/* Options (when using joker) - Ultra Compact */}
+                {showOptions && (
+                  <div className="mt-2 space-y-1 animate-slide-up">
+                    <div className="text-xs text-primary-300 mb-1">🃏 Opciones:</div>
+                    {question.options.map((opt, i) => (
+                      <div key={i} className="glass px-2 py-1 rounded-lg text-white text-left">
+                        <span className="font-medium text-primary-400 mr-1 text-xs">{String.fromCharCode(65 + i)}.</span>
+                        <span className="text-xs">{opt}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                {/* Answer (when revealed) - Ultra Compact */}
+                {revealed && (
+                  <div className="mt-2 glass p-2 rounded-xl animate-slide-up">
+                    <div className="text-xs text-green-300 mb-1">✅ Respuesta:</div>
+                    <p className="font-semibold text-green-400 text-sm mb-2">
+                      {question.answer}
                     </p>
-                  )}
-                </div>
-              )}
+                    {question.explanation && (
+                      <div>
+                        <div className="text-xs text-gray-400 mb-1">💡 Explicación:</div>
+                        <p className="text-xs text-gray-300 leading-tight">
+                          {question.explanation}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Action Buttons - Always visible at bottom */}
-          <div className="space-y-3">
+          {/* Fixed Action Buttons at Bottom */}
+          <div className="mt-3 space-y-2 flex-shrink-0">
             {!showOptions && !revealed && currentPlayer.jokers > 0 && (
               <button
                 className="btn-secondary w-full py-3 focus-ring animate-slide-up flex items-center justify-center gap-2"
                 onClick={useJoker}
               >
-                <span className="text-lg">🃏</span>
+                <span className="text-base">🃏</span>
                 <span className="text-sm">Usar comodín ({currentPlayer.jokers})</span>
               </button>
             )}
             
             {!revealed && (
               <button
-                className="btn-primary w-full py-4 focus-ring animate-slide-up flex items-center justify-center gap-2"
+                className="btn-primary w-full py-3 focus-ring animate-slide-up flex items-center justify-center gap-2"
                 onClick={() => setRevealed(true)}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
-                <span>Ver respuesta</span>
+                <span className="text-sm">Ver respuesta</span>
               </button>
             )}
             
             {/* Result Buttons - Always at bottom */}
             {revealed && (
-              <div className="grid grid-cols-2 gap-3 animate-slide-up">
+              <div className="grid grid-cols-2 gap-2 animate-slide-up">
                 <button
-                  className="btn-game bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-green-500/25 hover:shadow-green-500/40 focus:ring-green-500/30 py-4 flex items-center justify-center gap-2"
+                  className="btn-game bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-green-500/25 hover:shadow-green-500/40 focus:ring-green-500/30 py-3 flex items-center justify-center gap-1"
                   onClick={() => handleResult(true)}
                 >
-                  <span className="text-lg">✅</span>
+                  <span className="text-base">✅</span>
                   <span className="text-sm font-medium">Acertó</span>
                 </button>
                 <button
-                  className="btn-game bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 shadow-red-500/25 hover:shadow-red-500/40 focus:ring-red-500/30 py-4 flex items-center justify-center gap-2"
+                  className="btn-game bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 shadow-red-500/25 hover:shadow-red-500/40 focus:ring-red-500/30 py-3 flex items-center justify-center gap-1"
                   onClick={() => handleResult(false)}
                 >
-                  <span className="text-lg">❌</span>
+                  <span className="text-base">❌</span>
                   <span className="text-sm font-medium">Falló</span>
                 </button>
               </div>
