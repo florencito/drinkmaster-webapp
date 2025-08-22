@@ -32,12 +32,24 @@ const NombreJugadores = ({ onContinue }) => {
 
   return (
     <div className="p-4 text-center max-w-sm mx-auto flex flex-col items-center justify-between min-h-dvh animate-fade-zoom">
-      {/* Header - Compact */}
-      <div className="animate-slide-up">
-        <h2 className="text-2xl font-bold text-white mb-2">Jugadores</h2>
-        <p className="text-gray-300 text-sm">
-          Agrega los nombres ({MIN_JUGADORES}-{MAX_JUGADORES} jugadores)
-        </p>
+      {/* Header - Modern & Compact */}
+      <div className="animate-slide-up space-y-3">
+        {/* Modern title with subtle gradient */}
+        <div className="relative">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent mb-1 animate-float">
+            Jugadores
+          </h2>
+          <div className="absolute inset-0 text-3xl font-bold blur-lg opacity-20 bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">
+            Jugadores
+          </div>
+        </div>
+        
+        {/* Elegant subtitle */}
+        <div className="glass rounded-lg px-3 py-2">
+          <p className="text-gray-300 text-sm font-medium">
+            Configura tu equipo • {MIN_JUGADORES}-{MAX_JUGADORES} participantes
+          </p>
+        </div>
       </div>
 
       {/* Players Input Card - Compact with scroll */}
@@ -74,14 +86,14 @@ const NombreJugadores = ({ onContinue }) => {
           ))}
         </div>
         
-        {/* Add Player Button - Compact */}
+        {/* Add Player Button - Compact & Smaller */}
         <button
-          className="mt-4 w-full btn-secondary py-3 focus-ring disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="mt-3 px-4 py-2 btn-secondary focus-ring disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm mx-auto rounded-full"
           onClick={agregarJugador}
           disabled={nombres.length >= MAX_JUGADORES}
         >
-          <span className="text-lg">➕</span>
-          <span className="text-sm">Añadir ({nombres.length}/{MAX_JUGADORES})</span>
+          <span className="text-base">➕</span>
+          <span className="font-medium">Añadir ({nombres.length}/{MAX_JUGADORES})</span>
         </button>
       </div>
 

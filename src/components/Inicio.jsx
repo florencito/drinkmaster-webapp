@@ -41,26 +41,39 @@ const Inicio = ({ onStart, mode = 'normal' }) => {
     <div className="flex flex-col items-center justify-between min-h-dvh text-center px-4 py-8 animate-fade-zoom">
       {/* Hero Section - Elegant */}
       <div className="animate-slide-up space-y-4">
-        {/* Title with vibrant blue gradient like florenApps */}
-        <div className="relative mb-2">
-          {/* Main title with vibrant blue gradient */}
-          <h1 className="relative text-5xl md:text-6xl font-black tracking-tight bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent mb-3 animate-float z-10">
-            DrinkMaster
+        {/* Modern 3D Title Design */}
+        <div className="relative mb-4 perspective-1000">
+          {/* Background decorative elements */}
+          <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-cyan-500/20 blur-2xl opacity-30 rounded-full animate-pulse"></div>
+          
+          {/* Main title with 3D effect */}
+          <h1 className="relative text-5xl md:text-6xl font-black tracking-tight animate-float z-20">
+            {/* 3D Shadow layers */}
+            <span className="absolute top-1 left-1 text-black/40 blur-sm select-none">
+              DrinkMaster
+            </span>
+            <span className="absolute top-0.5 left-0.5 text-black/20 blur-sm select-none">
+              DrinkMaster
+            </span>
+            
+            {/* Main text with gradient */}
+            <span className="relative bg-gradient-to-br from-white via-gray-100 to-gray-300 bg-clip-text text-transparent filter drop-shadow-lg">
+              DrinkMaster
+            </span>
+            
+            {/* Highlight layer */}
+            <span className="absolute inset-0 bg-gradient-to-t from-transparent via-white/30 to-transparent bg-clip-text text-transparent opacity-60">
+              DrinkMaster
+            </span>
           </h1>
           
-          {/* Multiple glow layers for depth */}
-          <div className="absolute inset-0 text-5xl md:text-6xl font-black blur-2xl opacity-30 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent animate-pulse">
-            DrinkMaster
-          </div>
-          <div className="absolute inset-0 text-5xl md:text-6xl font-black blur-xl opacity-40 bg-gradient-to-r from-cyan-300 via-blue-400 to-blue-500 bg-clip-text text-transparent">
-            DrinkMaster
-          </div>
-          <div className="absolute inset-0 text-5xl md:text-6xl font-black blur-lg opacity-20 bg-gradient-to-r from-blue-300 to-blue-700 bg-clip-text text-transparent">
+          {/* Subtle glow effects */}
+          <div className="absolute inset-0 text-5xl md:text-6xl font-black blur-xl opacity-20 bg-gradient-to-r from-primary-300 to-purple-300 bg-clip-text text-transparent animate-pulse">
             DrinkMaster
           </div>
           
-          {/* Subtle background glow */}
-          <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-20 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent blur-3xl"></div>
+          {/* Bottom highlight line */}
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full"></div>
         </div>
         
         {/* Elegant subtitle */}
