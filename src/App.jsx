@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import ResponsibilityPopup from './components/ResponsibilityPopup'
 import Inicio from './components/Inicio'
 import NombreJugadores from './components/NombreJugadores'
@@ -64,6 +65,7 @@ function App({ mode = 'normal', initialPhase = 'inicio' }) {
           onPlayersChange={actualizarJugadores}
         />
       )}
+      <Analytics />
     </div>
   )
 }
