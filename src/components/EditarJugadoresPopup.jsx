@@ -2,14 +2,18 @@ import { useState } from 'react'
 
 const MAX_JUGADORES = 10
 const MIN_JUGADORES = 2
+const MAX_CARACTERES_NOMBRE = 15
 
 const EditarJugadoresPopup = ({ players, onClose, onSave }) => {
   const [nombres, setNombres] = useState(players)
 
   const handleChange = (i, value) => {
-    const nuevos = [...nombres]
-    nuevos[i] = value
-    setNombres(nuevos)
+    // Limitar la longitud del nombre
+    if (value.length <= MAX_CARACTERES_NOMBRE) {
+      const nuevos = [...nombres]
+      nuevos[i] = value
+      setNombres(nuevos)
+    }
   }
 
   const agregarJugador = () => {
@@ -37,12 +41,21 @@ const EditarJugadoresPopup = ({ players, onClose, onSave }) => {
         <div className="space-y-4">
           {nombres.map((nombre, i) => (
             <div key={i} className="flex items-center gap-2">
-              <input
-                className="w-full px-4 py-2 rounded-full bg-white/90 shadow-inner text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                placeholder={`Jugador ${i + 1}`}
-                value={nombre}
-                onChange={(e) => handleChange(i, e.target.value)}
-              />
+              <div className="relative flex-1">
+                <input
+                  className="w-full px-4 py-2 rounded-full bg-white/90 shadow-inner text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder={`Jugador ${i + 1}`}
+                  value={nombre}
+                  onChange={(e) => handleChange(i, e.target.value)}
+                  maxLength={MAX_CARACTERES_NOMBRE}
+                  title={`Máximo ${MAX_CARACTERES_NOMBRE} caracteres`}
+                />
+                {nombre.trim() && (
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500">
+                    {nombre.length}/{MAX_CARACTERES_NOMBRE}
+                  </div>
+                )}
+              </div>
               {nombres.length > MIN_JUGADORES && (
                 <button
                   className="text-red-500 font-bold px-3 hover:text-red-600 transition"

@@ -2,14 +2,18 @@ import { useState } from 'react'
 
 const MAX_JUGADORES = 10
 const MIN_JUGADORES = 2
+const MAX_CARACTERES_NOMBRE = 15
 
 const NombreJugadores = ({ onContinue }) => {
   const [nombres, setNombres] = useState(Array(MIN_JUGADORES).fill(''))
 
   const handleChange = (i, value) => {
-    const nuevos = [...nombres]
-    nuevos[i] = value
-    setNombres(nuevos)
+    // Limitar la longitud del nombre
+    if (value.length <= MAX_CARACTERES_NOMBRE) {
+      const nuevos = [...nombres]
+      nuevos[i] = value
+      setNombres(nuevos)
+    }
   }
 
   const agregarJugador = () => {
@@ -64,10 +68,13 @@ const NombreJugadores = ({ onContinue }) => {
                   placeholder={`Jugador ${i + 1}`}
                   value={nombre}
                   onChange={(e) => handleChange(i, e.target.value)}
+                  maxLength={MAX_CARACTERES_NOMBRE}
+                  title={`Máximo ${MAX_CARACTERES_NOMBRE} caracteres`}
                 />
                 {nombre.trim() && (
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-green-400 text-sm">
-                    ✓
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                    <span className="text-xs text-gray-400">{nombre.length}/{MAX_CARACTERES_NOMBRE}</span>
+                    <span className="text-green-400 text-sm">✓</span>
                   </div>
                 )}
               </div>
